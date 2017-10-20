@@ -22,12 +22,13 @@ function love.load()
 	runButton = {
 		width = mainCircle.radius * 2,
 		height = 50,
+		actColor = {123,237,203},
 		color = {123,237,203},
 		blockedColor = {153,153,153},
-		font = love.graphics.newFont("runFont.ttf", 40),
 		fontColor = {255,0,0},
 		X = mainCircle.X - mainCircle.radius,
-		Y = mainCircle.Y + mainCircle.radius/2 + 50
+		Y = mainCircle.Y + mainCircle.radius/2 + 50,
+		value = "run"
 	}
 	--circle = love.graphics.newImage("")
 
@@ -46,7 +47,8 @@ function love.load()
 			textColor = BackgroundColor,
 			textColorClicked = {255,0,0} ,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "",
@@ -56,7 +58,9 @@ function love.load()
 			textColor = BackgroundColor,
 			textColorClicked = {255,0,0} ,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color,
+			color = button.color
 		},
 		{
 			value = "",
@@ -66,7 +70,8 @@ function love.load()
 			textColor = BackgroundColor,
 			textColorClicked = {255,0,0} ,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "",
@@ -76,7 +81,8 @@ function love.load()
 			textColor = BackgroundColor,
 			textColorClicked = {255,0,0} ,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "",
@@ -86,7 +92,8 @@ function love.load()
 			textColor = BackgroundColor,
 			textColorClicked = {255,0,0} ,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "",
@@ -94,9 +101,10 @@ function love.load()
 			Y = initY + Yincr * 5,
 			clicked = false,
 			textColor = BackgroundColor,
-			textColorClicked = {255,0,0} ,
+			textColorClicked = {255,0,0},
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		}
 	}
 
@@ -106,70 +114,80 @@ function love.load()
 			X = results[1].X + posXincr,
 			Y = results[1].Y,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "x",
 			X = results[2].X + posXincr,
 			Y = results[2].Y,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "(",
 			X = results[3].X + posXincr,
 			Y = results[3].Y,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "^",
 			X = results[4].X + posXincr,
 			Y = results[4].Y,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "!",
 			X = results[5].X + posXincr,
 			Y = results[5].Y,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "-",
 			X = results[1].X + 1.2*posXincr + button.width,
 			Y = results[1].Y,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "/",
 			X = results[2].X + 1.2*posXincr + button.width,
 			Y = results[2].Y,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = ")",
 			X = results[3].X + 1.2*posXincr + button.width,
 			Y = results[3].Y,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "√",
 			X = results[4].X + 1.2*posXincr + button.width,
 			Y = results[4].Y,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		},
 		{
 			value = "C",
 			X = results[5].X + 1.2*posXincr + button.width,
 			Y = results[5].Y,
 			width = button.width,
-			height = button.height
+			height = button.height,
+			color = button.color
 		}
 	}
 
@@ -178,7 +196,8 @@ function love.load()
 		X = results[6].X + posXincr,
 		Y = results[6].Y,
 		width = button.width*2 + 0.2*posXincr,
-		height = button.height
+		height = button.height,
+		color = button.color
 	}
 
 	answerField = {
@@ -215,7 +234,7 @@ function drawMainCircle(X, Y, initCol)
 	degIncr = degToRad(36)
 	textDeg = degToRad(18)
 	textDegIncr = degToRad(36)
-	textRad = radius - 50
+	textRad = radius - 60
 
 	for i=0,10,1 do
 
@@ -239,7 +258,7 @@ function drawMainCircle(X, Y, initCol)
 			X+(radius*math.sin(deg+degIncr)*math.cos(angle) - radius*math.cos(deg+degIncr)*math.sin(angle)), 
 			Y+(radius*math.cos(deg+degIncr)*math.cos(angle) + radius*math.sin(deg+degIncr)*math.sin(angle))
 		)
-		love.graphics.setFont(runButton.font)
+		love.graphics.setFont(button.font)
 		love.graphics.print(
 			{
 				{0,0,0},
@@ -258,52 +277,11 @@ function drawMainCircle(X, Y, initCol)
 	end
 end
 
-function drawRunButton(x, y, width, height, value)
-
-	love.graphics.rectangle("fill", x, y, width, height)
-
-	love.graphics.setColor(runButton.fontColor)
-	love.graphics.setFont(runButton.font)
-	love.graphics.print({runButton.fontColor, value}, x + width/2 - 50, y + height/2 - 15)
-end
-
-function getPercent(value, percents)
-	return value * percents / 100
-end
-
 function rotate()
 	mainCircle.angle = mainCircle.angle + 1/math.pi
 end
 
-function degToRad(deg)
-	return deg*math.pi/180
-end
-
-function drawEqButton()
-	love.graphics.setColor(runButton.color)--number buttons
-	love.graphics.rectangle(
-		"fill", 
-		equalButton.X, 
-		equalButton.Y, 
-		equalButton.width, 
-		button.height,
-		10,
-		10,
-		40
-	)
-	love.graphics.setColor(BackgroundColor)--numbers
-	love.graphics.setFont(runButton.font)
-	love.graphics.print(equalButton.value, equalButton.X+equalButton.width/2 -20, equalButton.Y+15)
-end
-
 function game.show()
-	drawable.button(
-		x-closeButton.width,
-		0,
-		closeButton.width,
-		closeButton.height,
-		closeButton.value
-	)
 
 	drawable.triangle(
 		mainCircle.X - mainCircle.radius/8, 
@@ -321,35 +299,25 @@ function game.show()
 	)
 
 	if runButtonBlocked then
-		runButton.actColor  = runButton.blockedColor
+		runButton.color = runButton.blockedColor
 	else 
-		runButton.actColor = runButton.color
+		runButton.color = runButton.actColor
 	end
 
-	drawable.button(
-		runButton.X, 
-		runButton.Y, 
-		runButton.width, 
-		runButton.height, 
-		"run",
-		runButton.fontColor
-	)
+	drawable.button(runButton)
+
+	runButtonBlocked = tern(os.clock()-time<=1.0, true, false)
 
 	if rotateFlag then
 		rotate()
+	else
+		runButtonBlocked = false
 	end
-	--love.graphics.print(os.clock()-time, 0,0)
-
+	--topLeft(os.clock()-time)
+	topLeft(amountOfTries)
 	
 	for i=1, 6, 1 do --number buttons
-		drawable.button(
-			results[i].X, 
-			results[i].Y,
-			button.width, 
-			button.height,
-			results[i].value,
-			results[i].textColor
-		)
+		drawable.button(results[i])
 	end
 
 
@@ -370,12 +338,14 @@ function game.show()
 		answerField.width,
 		answerField.height
 	)
+
 	if answer == "100! You won! Click here to try again." then
 		love.graphics.setColor(0,255,0)--answer itself
 	else
 		love.graphics.setColor(255,0,0)
 	end
 	love.graphics.setFont(love.graphics.newFont("runFont.ttf", 25))
+
 	love.graphics.print( --answer itself
 		answer,
 		mainCircle.X - mainCircle.radius + 5,
@@ -392,20 +362,9 @@ function game.show()
 
 	for i=1,2,1 do
 		for j=1,5,1 do
-			drawButton(
-				operationButtons[5*(i-1)+j].X,
-				operationButtons[5*(i-1)+j].Y,
-				operationButtons[5*(i-1)+j].value,
-				BackgroundColor
-			)
+			drawable.button(operationButtons[5*(i-1)+j])
 		end
 	end
 
-	drawEqButton()
-
-	runButtonBlocked = tern(os.clock()-time<=1.0, true, false)
-end
-
-function tern ( cond , T , F )
-    if cond then return T else return F end
+	drawable.button(equalButton)
 end

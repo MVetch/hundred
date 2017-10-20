@@ -8,7 +8,7 @@ udp:send('connect', 0)
 
 function love.update(deltatime)
 	t = t + deltatime -- increase t by the deltatime
-	if game.draw and onlinePlay then
+	if onlinePlay and game.draw then
 		if t > updaterate then
 			udp:send(string.format('%s %d', 'update', roomId))
 			t=t-updaterate -- set t for the next round
@@ -53,7 +53,7 @@ function love.update(deltatime)
 			else
 				resultString = "unrecognised command:" .. cmd
 			end
-		elseif msg ~= 'timeout' then 
+		elseif msg ~= 'timeout' and online then 
 			resultString = "Network error: "..tostring(msg)
 		end
 	until not data

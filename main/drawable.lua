@@ -1,11 +1,19 @@
 drawable = {
 	
-	button = function(x, y, width, height, value, color, font, fontColor)
+	button = function(button)
 
-		value = value or "default"
-		color = color or {0,0,0}
-		font = font or love.graphics.newFont("runFont.ttf", fontSize)
-		fontColor = fontColor or {255, 255, 255}
+		local x = button.X or 0
+		local y = button.Y or 0
+		local width = button.width or 10 
+		local height = button.height or 10
+		local value = button.value or "default"
+		local color = button.color or {0,0,0}
+		local fontSize = button.fontSize or fontSize
+		local font = button.font or love.graphics.newFont("joystix monospace.ttf", fontSize)
+		local fontColor = button.fontColor or BackgroundColor
+		local rx = button.rx or 10
+		local ry = button.ry or 10
+		local segments = button.segments or 40
 
 		love.graphics.setColor(color)
 		love.graphics.rectangle(
@@ -13,11 +21,15 @@ drawable = {
 			x, 
 			y, 
 			width, 
-			height
+			height, 
+			rx, 
+			ry, 
+			segments
 		)
-		love.graphics.setColor(color)
+
+		love.graphics.setColor(fontColor)
 		love.graphics.setFont(font)
-		love.graphics.print({fontColor, value}, closeButton.X + 3, closeButton.Y + 5)
+		love.graphics.print(value, x + (width - string.width(value, fontSize))*0.5, y + (height - fontSize*1.25)/2)
 	end,
 
 	triangle = function(leftSideX, leftSideY, centerX, centerY, rightSideX, rightSideY)
@@ -31,11 +43,5 @@ drawable = {
 			rightSideX, 
 			rightSideY
 		)
-	end,
-
-	mainCircle = function( ... )
-		-- body
 	end
-
-
 }

@@ -5,9 +5,7 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 	if buttonClick == 1 then
 		--------------------------------------------------------------------------------------
 		if game.draw then
-			if click.inside(closeButton) then--close button
-				love.event.quit()
-			elseif click.inside(equalButton) then
+			if click.inside(equalButton) then
 				getAnswer(resultString)
 			elseif click.inside(answerField) and answer == "100! You won! Click here to try again." then
 				setDefaultValues()
@@ -30,7 +28,7 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 							udp:send(string.format("%s %d %d %d", 'setValue', roomId, amountOfTries, result))
 						end
 					end
-					--time = os.clock()
+					time = os.clock()
 				end
 			end
 			for i=1,10,1 do --operations click
@@ -66,9 +64,7 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 		end
 		--------------------------------------------------------------------------------------
 		if menu.draw then
-			if click.inside(closeButton) then
-				love.event.quit()
-			elseif click.inside(playOfflineButton) then
+			if click.inside(playOfflineButton) then
 				menu.draw = false
 				game.draw = true
 			elseif click.inside(playOnlineButton) then
@@ -96,6 +92,9 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 				onlinePlay = false
 				menu.draw = true
 			end
+		end
+		if click.inside(closeButton) then
+			love.event.quit()
 		end
 	end
 end

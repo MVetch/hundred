@@ -1,5 +1,7 @@
+love.window.setMode(1280, 720, {resizable = false, borderless=true})
 utf8 = require("utf8")
 socket = require "socket"
+require "functions"
 require("parcer")
 require "serverResponse"
 require "initScreen"
@@ -9,6 +11,7 @@ require "click"
 require "noNetWork"
 
 function love.draw()
+	drawable.button(closeButton)
 	if menu.draw then menu.show() end
 	if game.draw then game.show() end
 	if wait.draw then wait.show() end
@@ -22,9 +25,7 @@ function love.run()
 	if love.math then
 		love.math.setRandomSeed(os.time())
 	end
-	---------init screen---------------
-	properties()
-	---------/init screen---------------
+	
 
 	if love.load then love.load(arg) end
  
