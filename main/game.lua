@@ -1,4 +1,4 @@
-game = {draw = false}
+game = {draw = true}
 function love.load()
 	
 	initialColor = love.math.random(0, 255)
@@ -30,7 +30,6 @@ function love.load()
 		Y = mainCircle.Y + mainCircle.radius/2 + 50,
 		value = "run"
 	}
-	--circle = love.graphics.newImage("")
 
 	posXincr = 160
 
@@ -45,7 +44,7 @@ function love.load()
 			Y = initY + Yincr * 0,
 			clicked = false,
 			textColor = BackgroundColor,
-			textColorClicked = {255,0,0} ,
+			textColorClicked = {255,0,0},
 			width = button.width,
 			height = button.height,
 			color = button.color
@@ -56,7 +55,7 @@ function love.load()
 			Y = initY + Yincr * 1,
 			clicked = false,
 			textColor = BackgroundColor,
-			textColorClicked = {255,0,0} ,
+			textColorClicked = {255,0,0},
 			width = button.width,
 			height = button.height,
 			color = button.color,
@@ -68,7 +67,7 @@ function love.load()
 			Y = initY + Yincr * 2,
 			clicked = false,
 			textColor = BackgroundColor,
-			textColorClicked = {255,0,0} ,
+			textColorClicked = {255,0,0},
 			width = button.width,
 			height = button.height,
 			color = button.color
@@ -79,7 +78,7 @@ function love.load()
 			Y = initY + Yincr * 3,
 			clicked = false,
 			textColor = BackgroundColor,
-			textColorClicked = {255,0,0} ,
+			textColorClicked = {255,0,0},
 			width = button.width,
 			height = button.height,
 			color = button.color
@@ -90,7 +89,7 @@ function love.load()
 			Y = initY + Yincr * 4,
 			clicked = false,
 			textColor = BackgroundColor,
-			textColorClicked = {255,0,0} ,
+			textColorClicked = {255,0,0},
 			width = button.width,
 			height = button.height,
 			color = button.color
@@ -208,19 +207,26 @@ function love.load()
 	}
 
 	amountOfTries = 0
+	usedNumbers = 0
 	resultString = ""
 	answer = ""
+	goal = 100
+	winAnswer = goal .. "! You won! Click here to try again."
+	almostAnswer = goal .. ", but not all numbers used."
 end
 
 function setDefaultValues()
 	amountOfTries = 0
+	usedNumbers = 0
 	resultString = ""
 	answer = ""
 	for i = 1, 6, 1 do
 		results[i].value = ""
 		results[i].clicked = false
 	end
-	udp:send('default')
+	if onlinePlay then
+		udp:send('default')
+	end
 end
 
 function drawMainCircle(X, Y, initCol)
@@ -314,7 +320,7 @@ function game.show()
 		runButtonBlocked = false
 	end
 	--topLeft(os.clock()-time)
-	topLeft(amountOfTries)
+	--topLeft(usedNumbers)
 	
 	for i=1, 6, 1 do --number buttons
 		drawable.button(results[i])
@@ -339,7 +345,7 @@ function game.show()
 		answerField.height
 	)
 
-	if answer == "100! You won! Click here to try again." then
+	if answer == winAnswer then
 		love.graphics.setColor(0,255,0)--answer itself
 	else
 		love.graphics.setColor(255,0,0)

@@ -1,4 +1,4 @@
-menu = {draw = true}
+menu = {draw = false}
 
 x = love.graphics.getWidth()
 y = love.graphics.getHeight()
@@ -14,7 +14,7 @@ closeButton = {
 	color = {255, 0, 0}
 }
 
-BackgroundColor = {255,100,100}
+BackgroundColor = {255,255,255}
 love.graphics.setBackgroundColor(BackgroundColor)
 
 button = {
@@ -55,7 +55,6 @@ returnButton = {
 	textColor = BackgroundColor,
 	textColorClicked = {255,0,0} 
 }
-require "drawable"
 
 function menu.show()
 	drawable.button(playOfflineButton)

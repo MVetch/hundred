@@ -119,10 +119,14 @@ function getAnswer(expression)
 		end
 	end
 
-	if answer == 100 then
-		if amountOfTries == 6 then end
-		love.graphics.setColor(0,255,0)--answer itself
-		answer = answer .. "! You won! Click here to try again."
+	if answer == goal then
+		if usedNumbers == 6 then 
+			love.graphics.setColor(0,255,0)--answer itself
+			answer = winAnswer
+		else
+			love.graphics.setColor(255,0,0)
+			answer = almostAnswer
+		end
 	else
 		love.graphics.setColor(255,0,0)
 		answer = answer .. "..."

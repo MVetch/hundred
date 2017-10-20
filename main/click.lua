@@ -7,7 +7,7 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 		if game.draw then
 			if click.inside(equalButton) then
 				getAnswer(resultString)
-			elseif click.inside(answerField) and answer == "100! You won! Click here to try again." then
+			elseif click.inside(answerField) and answer == winAnswer then
 				setDefaultValues()
 			elseif not runButtonBlocked then --run button click
 				if 	click.inside(runButton) then
@@ -39,6 +39,7 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 								if results[j].value == "" then
 									results[j].value = string.sub(resultString,-1)
 									results[j].clicked = false
+									usedNumbers = usedNumbers - 1
 									break
 								end
 							end
@@ -58,6 +59,7 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 						resultString = resultString .. results[i].value
 						results[i].clicked = true
 						results[i].value = ""
+						usedNumbers = usedNumbers + 1
 					end
 				end
 			end

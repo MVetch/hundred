@@ -1,6 +1,7 @@
-love.window.setMode(1280, 720, {resizable = false, borderless=true})
+love.window.setMode(0, 0, {resizable = false, borderless=true})
 utf8 = require("utf8")
 socket = require "socket"
+require "drawable"
 require "functions"
 require("parcer")
 require "serverResponse"
@@ -12,10 +13,11 @@ require "noNetWork"
 
 function love.draw()
 	drawable.button(closeButton)
-	if menu.draw then menu.show() end
-	if game.draw then game.show() end
-	if wait.draw then wait.show() end
-	if noNetWork.draw then noNetWork.show() end
+	--if menu.draw then menu.show() end
+	--if game.draw then game.show() end
+	--if wait.draw then wait.show() end
+	--if noNetWork.draw then noNetWork.show() end
+	game.show()
 end
 
 function love.run()
