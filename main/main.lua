@@ -1,4 +1,4 @@
-love.window.setMode(0, 0, {resizable = false, borderless=true})
+love.window.setMode(1280, 720, {resizable = false, borderless=true})
 utf8 = require("utf8")
 socket = require "socket"
 require "drawable"

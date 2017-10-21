@@ -264,12 +264,28 @@ function drawMainCircle(X, Y, initCol)
 			X+(radius*math.sin(deg+degIncr)*math.cos(angle) - radius*math.cos(deg+degIncr)*math.sin(angle)), 
 			Y+(radius*math.cos(deg+degIncr)*math.cos(angle) + radius*math.sin(deg+degIncr)*math.sin(angle))
 		)
-		love.graphics.setFont(button.font)
+		-- love.graphics.setFont(button.font1)
+		-- love.graphics.print(
+		-- 	{
+		-- 		{0,0,0},
+		-- 		i-1
+		-- 	},
+		-- 	X+(textRad*math.sin(deg+degIncr/2-0.75/(2*math.pi))*math.cos(angle) - textRad*math.cos(deg+degIncr/2-0.75/(2*math.pi))*math.sin(angle)), 
+		-- 	Y+(textRad*math.cos(deg+degIncr/2-0.75/(2*math.pi))*math.cos(angle) + textRad*math.sin(deg+degIncr/2-0.75/(2*math.pi))*math.sin(angle)),
+		-- 	textDeg + angle
+		-- )
+		love.graphics.setFont(button.font1)
+		love.graphics.setColor(0,0,0)
 		love.graphics.print(
-			{
-				{0,0,0},
-				i-1
-			},
+			i-1,
+			X+(textRad*math.sin(deg+degIncr/2-0.75/(2*math.pi))*math.cos(angle) - textRad*math.cos(deg+degIncr/2-0.75/(2*math.pi))*math.sin(angle)), 
+			Y+(textRad*math.cos(deg+degIncr/2-0.75/(2*math.pi))*math.cos(angle) + textRad*math.sin(deg+degIncr/2-0.75/(2*math.pi))*math.sin(angle)),
+			textDeg + angle
+		)
+		love.graphics.setFont(button.font)
+		love.graphics.setColor(255,255,255)
+		love.graphics.print(
+			i-1,
 			X+(textRad*math.sin(deg+degIncr/2-0.75/(2*math.pi))*math.cos(angle) - textRad*math.cos(deg+degIncr/2-0.75/(2*math.pi))*math.sin(angle)), 
 			Y+(textRad*math.cos(deg+degIncr/2-0.75/(2*math.pi))*math.cos(angle) + textRad*math.sin(deg+degIncr/2-0.75/(2*math.pi))*math.sin(angle)),
 			textDeg + angle

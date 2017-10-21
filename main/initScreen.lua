@@ -22,6 +22,7 @@ button = {
 	height = 50,
 	color = {123,237,203},
 	font = love.graphics.newFont("joystix monospace.ttf", fontSize),
+	font1 = love.graphics.newFont("joystix monospace.ttf", fontSize + 3),
 	fontColor = {255,0,0}
 }
 
