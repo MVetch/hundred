@@ -9,7 +9,7 @@ drawable = {
 		local value = button.value or "default"
 		local color = button.color or {0,0,0}
 		local fontSize = button.fontSize or fontSize
-		local font = button.font or love.graphics.newFont("joystix monospace.ttf", fontSize)
+		local font = button.font or buttonFont
 		local fontColor = button.fontColor or BackgroundColor
 		local rx = button.rx or 10
 		local ry = button.ry or 10
@@ -27,7 +27,17 @@ drawable = {
 			segments
 		)
 
-		love.graphics.setColor(fontColor)
+		cursX, cursY = love.mouse.getPosition()
+		if cursX > x
+			and cursX < x + width
+			and cursY > y
+			and cursY < y + height 
+			then
+				love.graphics.setColor(0,0,0)
+		else
+			love.graphics.setColor(fontColor)
+		end
+		
 		love.graphics.setFont(font)
 		love.graphics.print(value, x + (width - string.width(value, fontSize))*0.5, y + (height - fontSize*1.25)/2)
 	end,

@@ -206,6 +206,10 @@ function love.load()
 		height = 50
 	}
 
+	buttonFont = love.graphics.newFont("joystix monospace.ttf", fontSize)
+	answerFont = love.graphics.newFont("runFont.ttf", 25)
+	expressionFont = love.graphics.newFont("runFont.ttf", 30)
+
 	amountOfTries = 0
 	usedNumbers = 0
 	resultString = ""
@@ -301,6 +305,9 @@ end
 
 function rotate()
 	mainCircle.angle = mainCircle.angle + 1/math.pi
+	if mainCircle.angle > 2 * math.pi then
+		mainCircle.angle = mainCircle.angle - 2*math.pi
+	end
 end
 
 function game.show()
@@ -336,7 +343,7 @@ function game.show()
 		runButtonBlocked = false
 	end
 	--topLeft(os.clock()-time)
-	--topLeft(usedNumbers)
+	--topLeft(mainCircle.angle)
 	
 	for i=1, 6, 1 do --number buttons
 		drawable.button(results[i])
@@ -366,7 +373,7 @@ function game.show()
 	else
 		love.graphics.setColor(255,0,0)
 	end
-	love.graphics.setFont(love.graphics.newFont("runFont.ttf", 25))
+	love.graphics.setFont(answerFont)
 
 	love.graphics.print( --answer itself
 		answer,
@@ -375,7 +382,7 @@ function game.show()
 	)
 
 	love.graphics.setColor(50,50,50)--calc string
-	love.graphics.setFont(love.graphics.newFont("runFont.ttf", 30))
+	love.graphics.setFont(expressionFont)
 	love.graphics.print(
 		resultString,
 		mainCircle.X - mainCircle.radius,

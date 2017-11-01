@@ -14,7 +14,7 @@ closeButton = {
 	color = {255, 0, 0}
 }
 
-BackgroundColor = {255,255,255}
+BackgroundColor = {252, 15, 192}
 love.graphics.setBackgroundColor(BackgroundColor)
 
 button = {
