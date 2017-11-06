@@ -15,6 +15,18 @@ drawable = {
 		local ry = button.ry or 10
 		local segments = button.segments or 40
 
+
+		love.graphics.setColor(0,0,0)
+		love.graphics.rectangle(
+			"fill", 
+			x, 
+			y, 
+			width+3, 
+			height+3, 
+			rx, 
+			ry, 
+			segments
+		)
 		love.graphics.setColor(color)
 		love.graphics.rectangle(
 			"fill", 

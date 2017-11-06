@@ -240,9 +240,9 @@ function drawMainCircle(X, Y, initCol)
 	blue = initCol.blue
 	green = initCol.green
 	angle = mainCircle.angle
-	deg = degToRad(-36)
+	deg = 0
 	degIncr = degToRad(36)
-	textDeg = degToRad(18)
+	textDeg = degToRad(-18)
 	textDegIncr = degToRad(36)
 	textRad = radius - getPercent(x, 4.6875)
 

@@ -68,6 +68,7 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 		if menu.draw then
 			if click.inside(playOfflineButton) then
 				menu.draw = false
+				onlinePlay = false
 				game.draw = true
 			elseif click.inside(playOnlineButton) then
 				menu.draw = false
@@ -98,6 +99,12 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 		if click.inside(closeButton) then
 			love.event.quit()
 		end
+	end
+end
+
+function love.mousereleased(x, y, buttonClick, istouch)
+	if buttonClick==1 then
+		
 	end
 end
 
