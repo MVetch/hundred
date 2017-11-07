@@ -5,6 +5,9 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 	if buttonClick == 1 then
 		--------------------------------------------------------------------------------------
 		if game.draw then
+			for b in game.buttons
+				if(click.inside(b))
+					button:click(b)
 			if click.inside(equalButton) then
 				getAnswer(resultString)
 			elseif click.inside(answerField) and answer == winAnswer then
@@ -66,20 +69,9 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 		end
 		--------------------------------------------------------------------------------------
 		if menu.draw then
-			if click.inside(playOfflineButton) then
-				menu.draw = false
-				onlinePlay = false
-				game.draw = true
-			elseif click.inside(playOnlineButton) then
-				menu.draw = false
-				onlinePlay = true
-				if myId then
-					udp:send(string.format('%s %d', 'search', myId))
-					wait.draw = true
-				else
-					noNetWork.draw = true
-				end
-			end
+			for b in menu.buttons
+				if(click.inside(b))
+					button:click(b)
 		end
 		--------------------------------------------------------------------------------------
 		if noNetWork.draw then
@@ -96,23 +88,25 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 				menu.draw = true
 			end
 		end
-		if click.inside(closeButton) then
-			love.event.quit()
+		if click.inside("close") then
+			button:click("close")
 		end
 	end
 end
 
 function love.mousereleased(x, y, buttonClick, istouch)
 	if buttonClick==1 then
-		
+		if click.inside(button.b["close"]) then
+			button:release("close")
+		end
 	end
 end
 
-function click.inside(button)
-	if click.X > button.X 
-		and click.X < button.X + button.width
-		and click.Y > button.Y
-		and click.Y < button.Y + button.height 
+function click.inside(name)
+	if button.b[name].X > button.b[name].X 
+		and click.X < button.b[name].X + button.b[name].width
+		and click.Y > button.b[name].Y
+		and click.Y < button.b[name].Y + button.b[name].height 
 		then
 			return true
 	end

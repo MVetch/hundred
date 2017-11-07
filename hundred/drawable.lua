@@ -1,19 +1,19 @@
 drawable = {
 	
-	button = function(button)
+	button = function(button_temp)
 
-		local x = button.X or 0
-		local y = button.Y or 0
-		local width = button.width or 10 
-		local height = button.height or 10
-		local value = button.value or "default"
-		local color = button.color or {0,0,0}
-		local fontSize = button.fontSize or fontSize
-		local font = button.font or buttonFont
-		local fontColor = button.fontColor or BackgroundColor
-		local rx = button.rx or 10
-		local ry = button.ry or 10
-		local segments = button.segments or 40
+		local x = button_temp.X or 0
+		local y = button_temp.Y or 0
+		local width = button_temp.width or 10 
+		local height = button_temp.height or 10
+		local value = button_temp.value or "default"
+		local color = button_temp.color or {0,0,0}
+		local fontSize = button_temp.fontSize or fontSize
+		local font = button_temp.font or buttonFont
+		local fontColor = button_temp.fontColor or BackgroundColor
+		local rx = button_temp.rx or 10
+		local ry = button_temp.ry or 10
+		local segments = button_temp.segments or 40
 
 
 		love.graphics.setColor(0,0,0)

@@ -1,24 +1,5 @@
 game = {draw = true}
 function love.load()
-	
-	initialColor = love.math.random(0, 255)
-
-	circleColor = {
-		red = love.math.random(255),
-		blue = love.math.random(255),
-		green = love.math.random(255)
-	}
-
-	circleColorInit = circleColor
-
-	mainCircle = {
-		color = circleColor,
-		radius = getPercent(y, 25),
-		X = getPercent(x, 25),
-		Y = getPercent(y, 40),
-		angle = 0
-	}
-
 	runButton = {
 		width = mainCircle.radius * 2,
 		height = 50,
@@ -33,7 +14,7 @@ function love.load()
 
 	posXincr = button.width * 1.6
 
-	time = -3
+	
 	initY = mainCircle.Y - 1.5 * mainCircle.radius
 	Yincr = button.height * 1.4
 	Xincr = 2*button.width + 1.2*posXincr + mainCircle.X - mainCircle.radius
@@ -205,18 +186,6 @@ function love.load()
 		width = x - 2*(mainCircle.X - mainCircle.radius),
 		height = button.height
 	}
-
-	buttonFont = love.graphics.newFont("joystix monospace.ttf", fontSize)
-	answerFont = love.graphics.newFont("runFont.ttf", getPercent(x, 1.953125))
-	expressionFont = love.graphics.newFont("runFont.ttf", getPercent(x, 2.34375))
-
-	amountOfTries = 0
-	usedNumbers = 0
-	resultString = ""
-	answer = ""
-	goal = 100
-	winAnswer = goal .. "! You won! Click here to try again."
-	almostAnswer = goal .. ", but not all numbers used."
 end
 
 function setDefaultValues()

@@ -1,64 +1,58 @@
-menu = {draw = false}
-
-x = love.graphics.getWidth()
-y = love.graphics.getHeight()
-
-fontSize = getPercent(x, 3.125)
-
-
-BackgroundColor = {252, 15, 192}
+menu = {draw = false, buttons = {"playOnline", "playOffline"}}
 love.graphics.setBackgroundColor(BackgroundColor)
 
-button = {
-	width = getPercent(x, 7.8125),
-	height = getPercent(x, 3.90625),
-	color = {123,237,203},
-	font = love.graphics.newFont("joystix monospace.ttf", fontSize),
-	font1 = love.graphics.newFont("joystix monospace.ttf", fontSize + 3),
-	fontColor = {255,0,0}
-}
-
-closeButton = {
+button:add("close", {
 	X = x-button.width/2,
-	Y = 0,
 	width = button.width/2,
-	height = button.height,
 	value = "x",
-	color = {255, 0, 0}
-}
+	color = {255, 0, 0},
+	onclick = function()
+		love.event.quit()
+	end
+})
 
-playOfflineButton = {
+button:add("playOffline", {
 	X = x/2 - getPercent(x, 41.40625)/2,
 	Y = y/2 + button.height,
 	width = getPercent(x, 41.40625),
-	height = button.height,
-	color = button.color,
 	value = "Play offline",
-	textColorClicked = {255,0,0} 
-}
+	onclick = function()
+		menu.draw = false
+		onlinePlay = false
+		game.draw = true
+	end
+})
 
-playOnlineButton = {
-	X = playOfflineButton.X,
-	Y = playOfflineButton.Y,
-	width = playOfflineButton.width,
-	height = playOfflineButton.height,
-	color = playOfflineButton.color,
+button:add("playOnline", {
+	X = x/2 - getPercent(x, 41.40625)/2,
+	Y = y/2 + button.height,
+	width = getPercent(x, 41.40625),
 	value = "Play online",
-	textColorClicked = playOfflineButton.textColorClicked
-}
+	textColorClicked = {255,0,0},
+	onclick = function()
+		menu.draw = false
+		onlinePlay = true
+		if myId then
+			udp:send(string.format('%s %d', 'search', myId))
+			wait.draw = true
+		else
+			noNetWork.draw = true
+		end
+	end
+})
 
-returnButton = {
+button:add("return", {
 	X = getPercent(x, 0.78125),
 	Y = getPercent(x, 0.78125),
 	width = button.width * 5,
-	height = button.height,
-	color = button.color,
 	value = "Return",
-	textColor = BackgroundColor,
-	textColorClicked = {255,0,0} 
-}
+	onclick = function()
+		noNetWork.draw = false
+		menu.draw = true
+	end
+})
 
 function menu.show()
-	drawable.button(playOfflineButton)
-	drawable.button(playOnlineButton)
+	button:draw("playOffline")
+	button:draw("playOnline")
 end
