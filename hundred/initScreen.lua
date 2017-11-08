@@ -7,6 +7,7 @@ button:add("close", {
 	color = {255, 0, 0},
 	onclick = function()
 		love.event.quit()
+		love.filesystem.write("settings.txt", json.encode(settings))
 	end
 })
 button:add("soundSwitch", {
@@ -14,9 +15,16 @@ button:add("soundSwitch", {
 	width = button.width/2,
 	value = "",
 	color = {255, 0, 0},
-	backgroundImage = soundOnPic,
+	backgroundImage = tern(settings.soundOn, soundOnPic, soundOffPic),
 	onclick = function()
-		button:get("soundSwitch").backgroundImage = soundOffPic
+		if settings.soundOn then 
+			button:get("soundSwitch").backgroundImage = soundOffPic
+			love.audio.stop()
+		else
+			button:get("soundSwitch").backgroundImage = soundOnPic
+			love.audio.rewind()
+		end
+		settings.soundOn = not settings.soundOn
 	end
 })
 

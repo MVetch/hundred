@@ -18,6 +18,10 @@ function topLeft(value)
 	love.graphics.print(value, 0, 0)
 end
 
+function bottomLeft(value)
+	love.graphics.print(value, y-50, 0)
+end
+
 function isLeftParenthesis(token)
 	return token == "("
 end

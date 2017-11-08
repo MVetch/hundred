@@ -7,6 +7,14 @@ blockedColor = {153,153,153}
 wheelSound = love.audio.newSource("sound/wheel.wav")
 soundOnPic = love.graphics.newImage("img/soundOn.png")
 soundOffPic = love.graphics.newImage("img/soundOff.png")
+settingsEncoded = love.filesystem.read("settings.txt")
+if settingsEncoded then
+	settings = json.decode(settingsEncoded)
+else
+	settings = {
+		soundOn = true
+	}
+end
 ---------------/essential-----------------
 
 ---------------circle-----------------

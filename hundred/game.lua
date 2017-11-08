@@ -36,7 +36,7 @@ function love.load()
 
 	for i=1,6 do
 		button:add("results" .. i, {
-			value = "0",
+			value = "",
 			X = x-Xincr,
 			Y = initY + Yincr * (i - 1),
 			clicked = false,
@@ -222,7 +222,7 @@ function game.show()
 	if rotateFlag then
 		rotate()
 		button:get("run").value = "stop"
-		if not wheelSound:isPlaying() then
+		if not wheelSound:isPlaying() and settings.soundOn then
 			wheelSound:play()
 		end
 	else

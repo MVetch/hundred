@@ -1,6 +1,7 @@
 love.window.setMode(0, 0, {resizable = false, borderless=true})
 utf8 = require "utf8"
 socket = require "socket"
+json = require "json"
 require "model/screens"
 require "model/functions"
 require "model/variables"
