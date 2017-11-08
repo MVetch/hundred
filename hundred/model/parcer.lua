@@ -1,4 +1,4 @@
-require("utf8custom")
+require("utf8/utf8custom")
 outputQueue = {
 	data = {}
 }

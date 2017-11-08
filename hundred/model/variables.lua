@@ -4,7 +4,9 @@ y = love.graphics.getHeight()
 fontSize = getPercent(x, 3.125)
 BackgroundColor = {218, 236, 99}
 blockedColor = {153,153,153}
-wheelSound = love.audio.newSource("wheelsound.wav")
+wheelSound = love.audio.newSource("sound/wheel.wav")
+soundOnPic = love.graphics.newImage("img/soundOn.png")
+soundOffPic = love.graphics.newImage("img/soundOff.png")
 ---------------/essential-----------------
 
 ---------------circle-----------------
@@ -28,10 +30,10 @@ mainCircle = {
 ---------------/circle-----------------
 
 ---------------fonts-----------------
-buttonFont = love.graphics.newFont("joystix monospace.ttf", fontSize)
-smallFont = love.graphics.newFont("joystix monospace.ttf", 20)
-answerFont = love.graphics.newFont("runFont.ttf", getPercent(x, 1.953125))
-expressionFont = love.graphics.newFont("runFont.ttf", getPercent(x, 2.34375))
+buttonFont = love.graphics.newFont("fonts/joystix monospace.ttf", fontSize)
+smallFont = love.graphics.newFont("fonts/joystix monospace.ttf", 20)
+answerFont = love.graphics.newFont("fonts/runFont.ttf", getPercent(x, 1.953125))
+expressionFont = love.graphics.newFont("fonts/runFont.ttf", getPercent(x, 2.34375))
 ---------------/fonts-----------------
 
 ---------------game-----------------

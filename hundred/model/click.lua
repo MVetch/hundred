@@ -54,9 +54,9 @@ function love.mousereleased(x, y, buttonClick, istouch)
 					button:release(b)
 				end
 			end
-			-- if click.inside(answerField) and answer == winAnswer then
-			-- 	setDefaultValues()
-			-- end
+			if click.insideField(answerField) and answer == winAnswer then
+				setDefaultValues()
+			end
 		end
 		--------------------------------------------------------------------------------------
 		if menu.draw then
@@ -92,6 +92,16 @@ function click.inside(name)
 		and click.X < button:get(name).X + button:get(name).width
 		and click.Y > button:get(name).Y
 		and click.Y < button:get(name).Y + button:get(name).height 
+		then
+			return true
+	end
+	return false
+end
+function click.insideField(field)
+	if click.X > field.X
+		and click.X < field.X + field.width
+		and click.Y > field.Y
+		and click.Y < field.Y + field.height 
 		then
 			return true
 	end

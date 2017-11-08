@@ -36,7 +36,7 @@ function love.load()
 
 	for i=1,6 do
 		button:add("results" .. i, {
-			value = "",
+			value = "0",
 			X = x-Xincr,
 			Y = initY + Yincr * (i - 1),
 			clicked = false,

@@ -9,6 +9,16 @@ button:add("close", {
 		love.event.quit()
 	end
 })
+button:add("soundSwitch", {
+	X = x-1.5*button.width,
+	width = button.width/2,
+	value = "",
+	color = {255, 0, 0},
+	backgroundImage = soundOnPic,
+	onclick = function()
+		button:get("soundSwitch").backgroundImage = soundOffPic
+	end
+})
 
 -- button:add("playOffline", {
 -- 	X = x/2 - getPercent(x, 41.40625)/2,

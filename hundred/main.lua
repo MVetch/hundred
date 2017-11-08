@@ -1,24 +1,25 @@
-love.window.setMode(1280, 720, {resizable = false, borderless=true})
-utf8 = require("utf8")
+love.window.setMode(0, 0, {resizable = false, borderless=true})
+utf8 = require "utf8"
 socket = require "socket"
-require "screens"
-require "functions"
-require "variables"
-require "button"
-require "drawable"
-require "parcer"
-require "serverResponse"
+require "model/screens"
+require "model/functions"
+require "model/variables"
+require "model/button"
+require "model/drawable"
+require "model/parcer"
+require "online/serverResponse"
 require "initScreen"
 require "game"
-require "waitScreen"
-require "click"
-require "noNetWork"
+require "online/waitScreen"
+require "model/click"
+require "online/noNetWork"
 
 function love.draw()
 	love.graphics.setFont(buttonFont)
 	love.graphics.setColor(0,0,0, 100)
-	topLeft("Spin for hundred  pre-alpha 0.1")
+	topLeft("need for spin  pre-alpha 0.1")
 	button:draw("close")
+	button:draw("soundSwitch")
 	--if menu.draw then menu.show() end
 	--if game.draw then game.show() end
 	--if wait.draw then wait.show() end

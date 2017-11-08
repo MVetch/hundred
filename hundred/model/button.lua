@@ -3,20 +3,20 @@ button = {
 	width = getPercent(x, 7.8125),
 	height = getPercent(x, 3.90625),
 	color = {123,237,203},
-	font = love.graphics.newFont("joystix monospace.ttf", fontSize),
-	font1 = love.graphics.newFont("joystix monospace.ttf", fontSize + 3),
+	font = love.graphics.newFont("fonts/joystix monospace.ttf", fontSize),
+	font1 = love.graphics.newFont("fonts/joystix monospace.ttf", fontSize + 3),
 	fontColor = {255,0,0}
 }
 
 function button:click(name)
 	self.b[name].onclick()
-	self.b[name].incrX = self.b[name].incrX + self.b[name].shadowX
-	self.b[name].incrY = self.b[name].incrY + self.b[name].shadowY
+	self.b[name].incrX = self.b[name].incrX + self.b[name].shadowX - 1
+	self.b[name].incrY = self.b[name].incrY + self.b[name].shadowY - 1
 end
 
 function button:release(name)
-	self.b[name].incrX = self.b[name].incrX - self.b[name].shadowX
-	self.b[name].incrY = self.b[name].incrY - self.b[name].shadowY
+	self.b[name].incrX = self.b[name].incrX - self.b[name].shadowX + 1
+	self.b[name].incrY = self.b[name].incrY - self.b[name].shadowY + 1
 end
 
 function button:add(name, newbutton, screen)
@@ -26,6 +26,7 @@ function button:add(name, newbutton, screen)
 	self.b[name].width = newbutton.width or self.width
 	self.b[name].height = newbutton.height or self.height
 	self.b[name].value = newbutton.value or "Push!"
+	self.b[name].backgroundImage = newbutton.backgroundImage
 	self.b[name].color = newbutton.color or self.color
 	self.b[name].fontSize = newbutton.fontSize or fontSize
 	self.b[name].font = newbutton.font or buttonFont
@@ -74,6 +75,17 @@ function button:draw(name)
 		self.b[name].ry, 
 		self.b[name].segments
 	)
+
+	if self.b[name].backgroundImage then
+		love.graphics.draw(
+			self.b[name].backgroundImage, 
+			self.b[name].X+self.b[name].incrX, 
+			self.b[name].Y+self.b[name].incrY, 
+			0, 
+			self.b[name].width/self.b[name].backgroundImage:getWidth(), 
+			self.b[name].height/self.b[name].backgroundImage:getHeight()
+		)
+	end
 
 	love.graphics.setFont(self.b[name].font)
 
