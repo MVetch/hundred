@@ -17,3 +17,27 @@ end
 function topLeft(value)
 	love.graphics.print(value, 0, 0)
 end
+
+function isLeftParenthesis(token)
+	return token == "("
+end
+
+function isRightParenthesis(token)
+	return token == ")"
+end
+
+function isNumber(number)
+	if number == "0" or
+		number == "1" or
+		number == "2" or
+		number == "3" or
+		number == "4" or
+		number == "5" or
+		number == "6" or
+		number == "7" or
+		number == "8" or
+		number == "9" then
+		return true
+		else return false
+	end
+end

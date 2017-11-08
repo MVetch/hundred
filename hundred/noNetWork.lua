@@ -1,5 +1,3 @@
-noNetWork = {}
-
 function noNetWork.show()
 	love.graphics.setColor({0,0,0})--numbers
 	str = "Network error! You can train offline."

@@ -19,7 +19,7 @@ function button:release(name)
 	self.b[name].incrY = self.b[name].incrY - self.b[name].shadowY
 end
 
-function button:add(name, newbutton)
+function button:add(name, newbutton, screen)
 	self.b[name] = {}
 	self.b[name].X = newbutton.X or 0
 	self.b[name].Y = newbutton.Y or 0
@@ -39,10 +39,13 @@ function button:add(name, newbutton)
 	self.b[name].incrY = 0
 	self.b[name].onclick = newbutton.onclick or function() end
 	self.b[name].onhover = newbutton.onhover or function() end
+	screen = screen or game
+	table.insert(screen.buttons, name)
 end
 
 function button:delete(name)
 	table.remove(self.b, name)
+	table.remove(game.buttons, name)
 end
 
 function button:draw(name)
@@ -52,10 +55,10 @@ function button:draw(name)
 	love.graphics.setColor(0,0,0)
 	love.graphics.rectangle(
 		"fill", 
-		self.b[name].X, 
-		self.b[name].Y, 
-		self.b[name].width+self.b[name].shadowX, 
-		self.b[name].height+self.b[name].shadowY, 
+		self.b[name].X+self.b[name].shadowX, 
+		self.b[name].Y+self.b[name].shadowY, 
+		self.b[name].width, 
+		self.b[name].height, 
 		self.b[name].rx, 
 		self.b[name].ry, 
 		self.b[name].segments
@@ -72,15 +75,19 @@ function button:draw(name)
 		self.b[name].segments
 	)
 
+	love.graphics.setFont(self.b[name].font)
+
+	love.graphics.setColor(0,0,0)
+	love.graphics.print(self.b[name].value, self.b[name].X + (self.b[name].width - self.b[name].font:getWidth(self.b[name].value))*0.5 + 1 + self.b[name].incrX, self.b[name].Y + (self.b[name].height - self.b[name].font:getHeight())/2 + 1 + self.b[name].incrY)
+	--love.graphics.print(self.b[name].value, self.b[name].X + (self.b[name].width - self.b[name].font:getWidth(self.b[name].value))*0.5 - 1, self.b[name].Y + (self.b[name].height - self.b[name].font:getHeight())/2 - 1)
+	
 	if(self:hovered(name)) then
 		love.graphics.setColor(0,0,0)
 		self.b[name].onhover()
 	else
 		love.graphics.setColor(self.b[name].fontColor)
 	end
-
-	love.graphics.setFont(self.b[name].font)
-	love.graphics.print(self.b[name].value, self.b[name].X + (self.b[name].width - string.width(self.b[name].value, fontSize))*0.5, self.b[name].Y + (self.b[name].height - fontSize*1.25)/2)
+	love.graphics.print(self.b[name].value, self.b[name].X + (self.b[name].width - self.b[name].font:getWidth(self.b[name].value))*0.5 + self.b[name].incrX, self.b[name].Y + (self.b[name].height - self.b[name].font:getHeight())/2 + self.b[name].incrY)
 end
 
 function button:exists(name)
@@ -97,4 +104,8 @@ function button:hovered(name)
 			return true
 	end
 	return false
+end
+
+function button:get(name)
+	return self.b[name]
 end

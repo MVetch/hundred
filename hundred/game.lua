@@ -1,191 +1,114 @@
-game = {draw = true}
 function love.load()
-	runButton = {
+	button:add("run", {
 		width = mainCircle.radius * 2,
-		height = 50,
 		actColor = {123,237,203},
 		color = {123,237,203},
 		blockedColor = {153,153,153},
 		fontColor = {255,0,0},
 		X = mainCircle.X - mainCircle.radius,
-		Y = mainCircle.Y + mainCircle.radius/2 + 50,
-		value = "run"
-	}
+		Y = mainCircle.Y + mainCircle.radius + 50,
+		value = "spin",
+		onclick = function()
+			if not runButtonBlocked then
+				rotateFlag = not rotateFlag
+				if not rotateFlag and amountOfTries < 6 then
+					result = 0
+					tangle = mainCircle.angle
+					while tangle > degToRad(36) do
+						tangle = tangle - degToRad(36)
+						result = result + 1
+					end
+					button:get("results" .. amountOfTries+1).value = result
+					amountOfTries = amountOfTries + 1
+					if onlinePlay then
+						udp:send(string.format("%s %d %d %d", 'setValue', roomId, amountOfTries, result))
+					end
+				end
+				time = os.clock()
+			end
+		end
+	})
 
 	posXincr = button.width * 1.6
-
-	
-	initY = mainCircle.Y - 1.5 * mainCircle.radius
+	initY = mainCircle.Y - mainCircle.radius
 	Yincr = button.height * 1.4
-	Xincr = 2*button.width + 1.2*posXincr + mainCircle.X - mainCircle.radius
-	results = {
-		{
-			value = "",
-			X = x-Xincr,
-			Y = initY + Yincr * 0,
-			clicked = false,
-			textColor = BackgroundColor,
-			textColorClicked = {255,0,0},
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "",
-			X = x-Xincr,
-			Y = initY + Yincr * 1,
-			clicked = false,
-			textColor = BackgroundColor,
-			textColorClicked = {255,0,0},
-			width = button.width,
-			height = button.height,
-			color = button.color,
-			color = button.color
-		},
-		{
-			value = "",
-			X = x-Xincr,
-			Y = initY + Yincr * 2,
-			clicked = false,
-			textColor = BackgroundColor,
-			textColorClicked = {255,0,0},
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "",
-			X = x-Xincr,
-			Y = initY + Yincr * 3,
-			clicked = false,
-			textColor = BackgroundColor,
-			textColorClicked = {255,0,0},
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "",
-			X = x-Xincr,
-			Y = initY + Yincr * 4,
-			clicked = false,
-			textColor = BackgroundColor,
-			textColorClicked = {255,0,0},
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "",
-			X = x-Xincr,
-			Y = initY + Yincr * 5,
-			clicked = false,
-			textColor = BackgroundColor,
-			textColorClicked = {255,0,0},
-			width = button.width,
-			height = button.height,
-			color = button.color
-		}
-	}
+	Xincr = 2 * button.width + 1.2 * posXincr + mainCircle.X - mainCircle.radius
 
-	operationButtons = {
-		{
-			value = "+",
-			X = results[1].X + posXincr,
-			Y = results[1].Y,
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "x",
-			X = results[2].X + posXincr,
-			Y = results[2].Y,
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "(",
-			X = results[3].X + posXincr,
-			Y = results[3].Y,
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "^",
-			X = results[4].X + posXincr,
-			Y = results[4].Y,
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "!",
-			X = results[5].X + posXincr,
-			Y = results[5].Y,
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "-",
-			X = results[1].X + 1.2*posXincr + button.width,
-			Y = results[1].Y,
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "/",
-			X = results[2].X + 1.2*posXincr + button.width,
-			Y = results[2].Y,
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = ")",
-			X = results[3].X + 1.2*posXincr + button.width,
-			Y = results[3].Y,
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "√",
-			X = results[4].X + 1.2*posXincr + button.width,
-			Y = results[4].Y,
-			width = button.width,
-			height = button.height,
-			color = button.color
-		},
-		{
-			value = "C",
-			X = results[5].X + 1.2*posXincr + button.width,
-			Y = results[5].Y,
-			width = button.width,
-			height = button.height,
-			color = button.color
-		}
-	}
+	for i=1,6 do
+		button:add("results" .. i, {
+			value = "",
+			X = x-Xincr,
+			Y = initY + Yincr * (i - 1),
+			clicked = false,
+			onclick = function()
+				if not button:get("results" .. i).clicked and button:get("results" .. i).value ~= "" then
+					resultString = resultString .. button:get("results" .. i).value
+					button:get("results" .. i).clicked = true
+					button:get("results" .. i).value = ""
+					usedNumbers = usedNumbers + 1
+				end
+			end
+		})
+	end
 
-	equalButton = {
+	for i=1,9 do
+		if i < 6 then
+			incr = posXincr
+		else
+			incr = 1.2*posXincr + button.width
+		end
+		button:add("operations" .. i, {
+			X = button.b["results" .. ((i-1) % 5 + 1)].X + incr,
+			Y = button.b["results" .. ((i-1) % 5 + 1)].Y,
+			value = operations[i].value,
+			onclick = function()
+				resultString = resultString .. button:get("operations" .. i).value
+			end
+		})
+	end
+
+	button:add("operations" .. 10, {
+		value = "C",
+		X = button.b["results" .. 5].X + 1.2*posXincr + button.width,
+		Y = button.b["results" .. 5].Y,
+		onclick = function()
+			if isNumber(string.sub(resultString,-1)) then
+				for j=1,6,1 do
+					if button.b["results" .. j].value == "" then
+						button.b["results" .. j].value = string.sub(resultString,-1)
+						button.b["results" .. j].clicked = false
+						usedNumbers = usedNumbers - 1
+						break
+					end
+				end
+			end
+			local byteoffset = utf8.offset(resultString, -1)
+	        if byteoffset then
+	            resultString = string.sub(resultString, 1, byteoffset - 1)
+	        end
+		end
+	})
+
+	button:add("equal", {
 		value = "=",
-		X = results[6].X + posXincr,
-		Y = results[6].Y,
+		X = button.b["results" .. 6].X + posXincr,
+		Y = button.b["results" .. 6].Y,
 		width = button.width*2 + 0.2*posXincr,
-		height = button.height,
-		color = button.color
-	}
+		onclick = function()
+			getAnswer(resultString)
+		end
+	})
 
 	answerField = {
 		X = mainCircle.X - mainCircle.radius,
-		Y = mainCircle.Y + mainCircle.radius + runButton.height + getPercent(x, 9.375),
+		Y = button:get("run").Y + button:get("run").height + getPercent(x, 10.375),
 		width = x - 2*(mainCircle.X - mainCircle.radius),
 		height = button.height
 	}
+	-- answer2 = ""
+	-- for k,b in pairs(game.buttons) do
+	-- 	answer2 = answer2 .. "\n" .. button:get(b).X
+	-- end
 end
 
 function setDefaultValues()
@@ -194,8 +117,8 @@ function setDefaultValues()
 	resultString = ""
 	answer = ""
 	for i = 1, 6, 1 do
-		results[i].value = ""
-		results[i].clicked = false
+		button:get("results" .. i).value = ""
+		button:get("results" .. i).clicked = false
 	end
 	if onlinePlay then
 		udp:send('default')
@@ -273,49 +196,56 @@ function game.show()
 
 	drawable.triangle(
 		mainCircle.X - mainCircle.radius/8, 
-		mainCircle.Y + mainCircle.radius/2 + 30,
+		mainCircle.Y + mainCircle.radius + 30,
 		mainCircle.X, 
-		mainCircle.Y + mainCircle.radius/2 + 10,
+		mainCircle.Y + mainCircle.radius + 10,
 		mainCircle.X + mainCircle.radius/8, 
-		mainCircle.Y + mainCircle.radius/2 + 30
+		mainCircle.Y + mainCircle.radius + 30
 	)
 
 	drawMainCircle(
 		mainCircle.X, 
-		mainCircle.Y - mainCircle.radius/2, 
+		mainCircle.Y, 
 		mainCircle.color
 	)
 
 	if runButtonBlocked then
-		runButton.color = runButton.blockedColor
+		button:get("run").color = blockedColor
 	else 
-		runButton.color = runButton.actColor
+		button:get("run").color = button.color
 	end
 
-	drawable.button(runButton)
+	button:draw("run")
 
 	runButtonBlocked = tern(os.clock()-time<=1.0, true, false)
 
 	if rotateFlag then
 		rotate()
+		button:get("run").value = "stop"
+		if not wheelSound:isPlaying() then
+			wheelSound:play()
+		end
 	else
 		runButtonBlocked = false
+		button:get("run").value = "spin"
+		wheelSound:stop()
 	end
 	--topLeft(os.clock()-time)
 	--topLeft(mainCircle.angle)
+	-- topLeft(answer2)
 	
 	for i=1, 6, 1 do --number buttons
-		drawable.button(results[i])
+		button:draw("results" .. i)
 	end
 
 
-	love.graphics.setColor(234, 215, 150)--calc field
+	love.graphics.setColor(20, 132, 5)--calc field
 	love.graphics.rectangle(
 		"fill",
 		mainCircle.X - mainCircle.radius,
-		mainCircle.Y + mainCircle.radius + runButton.height,
-		x - 2*(mainCircle.X - mainCircle.radius), 
-		getPercent(x, 7.8125)
+		button:get("run").Y + button:get("run").height + getPercent(x, 4.125),
+		x - 2 * (mainCircle.X - mainCircle.radius), 
+		getPercent(x, 5.46875)
 	)
 
 	love.graphics.setColor(0, 0, 150)--answer field
@@ -337,7 +267,7 @@ function game.show()
 	love.graphics.print( --answer itself
 		answer,
 		mainCircle.X - mainCircle.radius + 5,
-		mainCircle.Y + mainCircle.radius + runButton.height + getPercent(x, 10.546875)
+		answerField.Y + answerField.height/2 - answerFont:getHeight()/4
 	)
 
 	love.graphics.setColor(50,50,50)--calc string
@@ -345,14 +275,14 @@ function game.show()
 	love.graphics.print(
 		resultString,
 		mainCircle.X - mainCircle.radius,
-		mainCircle.Y + mainCircle.radius + runButton.height + getPercent(x, 3.125)
+		button:get("run").Y + button:get("run").height + getPercent(x, 4.125) + getPercent(x, 5.46875)/2 - expressionFont:getHeight()/4
 	)
 
 	for i=1,2,1 do
 		for j=1,5,1 do
-			drawable.button(operationButtons[5*(i-1)+j])
+			button:draw("operations" .. 5*(i-1)+j)
 		end
 	end
 
-	drawable.button(equalButton)
+	button:draw("equal")
 end

@@ -1,4 +1,4 @@
-wait = {draw = false}
+
 
 function wait.show()
 	drawable.button(returnButton)

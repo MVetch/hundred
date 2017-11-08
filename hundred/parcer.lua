@@ -7,101 +7,6 @@ opStack = {
 	data = {}
 }
 
-operations = {
-	{
-		value = "+",
-		precedence = 1,
-		associativity = 0, --0 left, 1 right
-		result = function(a, b)
-			if b == nil then
-				return false
-			end
-			return a+b
-		end
-	},
-	{
-		value = "-",
-		precedence = 1,
-		associativity = 0, --0 left, 1 right
-		result = function(a, b)
-			if b == nil then
-				return false
-			end
-			return b-a
-		end
-	},
-	{
-		value = "x",
-		precedence = 2,
-		associativity = 0, --0 left, 1 right
-		result = function(a, b)
-			if b == nil then
-				return false
-			end
-			return a*b
-		end
-	},
-	{
-		value = "/",
-		precedence = 2,
-		associativity = 0, --0 left, 1 right
-		result = function(a, b)
-			if b == nil then
-				return false
-			end
-			if a == 0 then 
-				return "Error in division function: dividing by 0"
-			end
-			return b/a
-		end
-	},
-	{
-		value = "!",
-		precedence = 5,
-		associativity = 0, --0 left, 1 right
-		result = function(a)
-			if a == 0 then
-				return 1
-			elseif a < 0 then
-				return "Error in factorial function: argument should be more than -1"
-			else
-				ret = 1
-				for i=1, a, 1 do
-					ret = ret*i
-				end
-				return ret
-			end
-		end
-	},
-	{
-		value = "√",
-		precedence = 4,
-		associativity = 0, --0 left, 1 right
-		result = function(a)
-			if a<0 then 
-				return "Error in sqrt function: argument should be more than 0"
-			else
-				return math.sqrt(a)
-			end
-		end
-	},
-	{
-		value = "^",
-		precedence = 4,
-		associativity = 0, --0 left, 1 right
-		result = function(a, b)
-			if b == nil then
-				return false
-			end
-			tb=1
-			for i=1, a, 1 do
-				tb = b*tb
-			end
-			return tb
-		end
-	}
-}
-
 function getAnswer(expression)
 	expression = replaceUnaryOperator(expression)
 	--answer = expression
@@ -273,33 +178,9 @@ function evaluate(queue)
 	end
 end
 
-function isLeftParenthesis(token)
-	return token == "("
-end
-
-function isRightParenthesis(token)
-	return token == ")"
-end
-
-function isNumber(number)
-	if number == "0" or
-		number == "1" or
-		number == "2" or
-		number == "3" or
-		number == "4" or
-		number == "5" or
-		number == "6" or
-		number == "7" or
-		number == "8" or
-		number == "9" then
-		return true
-		else return false
-	end
-end
-
 function isOperation(token)
 	for i=1, table.getn(operations), 1 do
-		if token == operations[i].value then
+		if token == operations[i].value and token ~= "(" and token ~= ")" then
 			return operations[i]
 		end
 	end
