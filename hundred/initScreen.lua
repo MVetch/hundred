@@ -1,32 +1,7 @@
 love.graphics.setBackgroundColor(BackgroundColor)
 
-button:add("close", {
-	X = x-button.width/2,
-	width = button.width/2,
-	value = "x",
-	color = {255, 0, 0},
-	onclick = function()
-		love.event.quit()
-		love.filesystem.write("settings.txt", json.encode(settings))
-	end
-})
-button:add("soundSwitch", {
-	X = x-1.5*button.width,
-	width = button.width/2,
-	value = "",
-	color = {255, 0, 0},
-	backgroundImage = tern(settings.soundOn, soundOnPic, soundOffPic),
-	onclick = function()
-		if settings.soundOn then 
-			button:get("soundSwitch").backgroundImage = soundOffPic
-			love.audio.stop()
-		else
-			button:get("soundSwitch").backgroundImage = soundOnPic
-			love.audio.rewind()
-		end
-		settings.soundOn = not settings.soundOn
-	end
-})
+scoreboard:load()
+
 
 -- button:add("playOffline", {
 -- 	X = x/2 - getPercent(x, 41.40625)/2,
@@ -69,7 +44,7 @@ button:add("soundSwitch", {
 -- 	end
 -- })
 
-function menu.show()
+function screens.menu.show()
 	button:draw("playOffline")
 	button:draw("playOnline")
 end

@@ -1,6 +1,4 @@
-
-
-function wait.show()
+function screens.wait.show()
 	drawable.button(returnButton)
 	drawMainCircle(getPercent(x, 50), getPercent(y, 30), mainCircle.color)
 	rotate()

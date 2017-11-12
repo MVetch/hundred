@@ -28,6 +28,8 @@ function getAnswer(expression)
 		if usedNumbers == 6 then 
 			love.graphics.setColor(0,255,0)--answer itself
 			answer = winAnswer
+			timer:stop()
+			scoreboard:write(timer.time)
 		else
 			love.graphics.setColor(255,0,0)
 			answer = almostAnswer

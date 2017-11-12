@@ -1,41 +1,38 @@
-love.window.setMode(0, 0, {resizable = false, borderless=true})
+love.window.setMode(1280, 720, {resizable = false, borderless=false})
+--love.window.setMode(0, 0, {resizable = false, borderless=false})
 utf8 = require "utf8"
 socket = require "socket"
-json = require "json"
-require "model/screens"
+require 'json.json'
 require "model/functions"
 require "model/variables"
+require "model/screens"
 require "model/button"
 require "model/drawable"
 require "model/parcer"
+require "model/timer"
+require "model/scoreboard"
 require "online/serverResponse"
 require "initScreen"
 require "game"
+require "screens/background"
 require "online/waitScreen"
 require "model/click"
 require "online/noNetWork"
 
 function love.draw()
-	love.graphics.setFont(buttonFont)
-	love.graphics.setColor(0,0,0, 100)
-	topLeft("need for spin  pre-alpha 0.1")
-	button:draw("close")
-	button:draw("soundSwitch")
+	--scoreboard:toString()
 	--if menu.draw then menu.show() end
 	--if game.draw then game.show() end
 	--if wait.draw then wait.show() end
 	--if noNetWork.draw then noNetWork.show() end
-	game.show()
+	for name, screen in pairs(screens) do
+		if screen.draw then screen.show() end
+	end
 end
 
 function love.run()
 
-	local dt = 0
-
-	if love.math then
-		love.math.setRandomSeed(os.time())
-	end
-	
+	local dt = 0	
 
 	if love.load then love.load(arg) end
  

@@ -3,86 +3,45 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 	click.X = clickX
 	click.Y = clickY
 	if buttonClick == 1 then
-		--------------------------------------------------------------------------------------
-		if game.draw then
-			for k,b in pairs(game.buttons) do
-				if(click.inside(b)) then
-					button:click(b)
-					break
-				end
-			end
-			-- if click.inside(answerField) and answer == winAnswer then
-			-- 	setDefaultValues()
-			-- end
-		end
-		--------------------------------------------------------------------------------------
-		if menu.draw then
-			for k,b in pairs(menu.buttons) do
-				if(click.inside(b)) then
-					button:click(b)
-					break
-				end
+		for name, screen in pairs(screens) do
+			if screen.draw then 
+				for k,b in pairs(screen.buttons) do
+					if(click.inside(b)) then
+						button:click(b)
+						break
+					end
+				end 
 			end
 		end
 		--------------------------------------------------------------------------------------
-		if noNetWork.draw then
+		if screens.noNetWork.draw then
 			if click.inside(returnButton) then
 				noNetWork.draw = false
 				menu.draw = true
 			end
 		end
 		--------------------------------------------------------------------------------------
-		if wait.draw then
+		if screens.wait.draw then
 			if click.inside(returnButton) then
 				wait.draw = false
 				onlinePlay = false
 				menu.draw = true
 			end
-		end
-		if click.inside("close") then
-			button:click("close")
 		end
 	end
 end
 
-function love.mousereleased(x, y, buttonClick, istouch)
+function love.mousereleased(clickX, clickY, buttonClick, istouch)
 	if buttonClick == 1 then
-		--------------------------------------------------------------------------------------
-		if game.draw then
-			for k,b in pairs(game.buttons) do
-				if(click.inside(b)) then
-					button:release(b)
-				end
+		for name, screen in pairs(screens) do
+			if screen.draw then 
+				for k,b in pairs(screen.buttons) do
+					if(click.inside(b)) then
+						button:release(b)
+						break
+					end
+				end 
 			end
-			if click.insideField(answerField) and answer == winAnswer then
-				setDefaultValues()
-			end
-		end
-		--------------------------------------------------------------------------------------
-		if menu.draw then
-			for b in menu.buttons do
-				if(click.inside(b)) then
-					button:release(b)
-				end
-			end
-		end
-		--------------------------------------------------------------------------------------
-		if noNetWork.draw then
-			if click.inside(returnButton) then
-				noNetWork.draw = false
-				menu.draw = true
-			end
-		end
-		--------------------------------------------------------------------------------------
-		if wait.draw then
-			if click.inside(returnButton) then
-				wait.draw = false
-				onlinePlay = false
-				menu.draw = true
-			end
-		end
-		if click.inside("close") then
-			button:release("close")
 		end
 	end
 end
