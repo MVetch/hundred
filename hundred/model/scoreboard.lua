@@ -27,12 +27,3 @@ function scoreboard:toString()
 	end
 	topLeft(res)
 end
-
-function screens.scorebox.show()
-	love.graphics.translate(screens.scorebox.X, screens.scorebox.Y)
-	love.graphics.setColor(0,0,0)
-	love.graphics.rectangle("fill", 0, 0, screens.scorebox.w, screens.scorebox.h)
-	love.graphics.setColor(255,255,255)
-	scoreboard:toString()
-	love.graphics.origin()
-end

@@ -3,9 +3,9 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 	click.X = clickX
 	click.Y = clickY
 	if buttonClick == 1 then
-		for name, screen in pairs(screens) do
-			if screen.draw then 
-				for k,b in pairs(screen.buttons) do
+		for name, s in pairs(screen.s) do
+			if s.draw then 
+				for k,b in pairs(s.buttons) do
 					if(click.inside(b)) then
 						button:click(b)
 						break
@@ -13,29 +13,17 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 				end 
 			end
 		end
-		--------------------------------------------------------------------------------------
-		if screens.noNetWork.draw then
-			if click.inside(returnButton) then
-				noNetWork.draw = false
-				menu.draw = true
-			end
-		end
-		--------------------------------------------------------------------------------------
-		if screens.wait.draw then
-			if click.inside(returnButton) then
-				wait.draw = false
-				onlinePlay = false
-				menu.draw = true
-			end
+		if click.insideField(answerField) then
+			setDefaultValues()
 		end
 	end
 end
 
 function love.mousereleased(clickX, clickY, buttonClick, istouch)
 	if buttonClick == 1 then
-		for name, screen in pairs(screens) do
-			if screen.draw then 
-				for k,b in pairs(screen.buttons) do
+		for name, s in pairs(screen.s) do
+			if s.draw then 
+				for k,b in pairs(s.buttons) do
 					if(click.inside(b)) then
 						button:release(b)
 						break

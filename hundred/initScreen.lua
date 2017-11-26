@@ -44,7 +44,7 @@ scoreboard:load()
 -- 	end
 -- })
 
-function screens.menu.show()
+function screen.s.menu.show()
 	button:draw("playOffline")
 	button:draw("playOnline")
 end

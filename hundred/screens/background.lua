@@ -1,7 +1,7 @@
-function screens.background.show()
+function screen.s.background.show()
 	love.graphics.setFont(buttonFont)
 	love.graphics.setColor(0,0,0, 100)
-	topLeft("need for spin  pre-alpha " .. version .. "\n" .. timer:get())
+	topLeft("need for spin\npre-alpha " .. version .. "\n" .. timer:get())
 	button:draw("close")
 	button:draw("soundSwitch")
 	button:draw("scorebox")
@@ -13,8 +13,6 @@ button:add("close", {
 	value = "x",
 	color = {255, 0, 0},
 	onclick = function()
-		love.filesystem.write("settings.txt", json.encode(settings))
-		love.filesystem.write("records.txt", json.encode(scoreboard.results))
 		love.event.quit()
 	end
 })
@@ -23,7 +21,7 @@ button:add("soundSwitch", {
 	width = button.width/2,
 	value = "",
 	color = {255, 0, 0},
-	backgroundImage = tern(settings.soundOn, soundOnPic, soundOffPic),
+	backgroundImage = tern(settings:get("soundOn"), soundOnPic, soundOffPic),
 	onclick = function()
 		if settings.soundOn then 
 			button:get("soundSwitch").backgroundImage = soundOffPic
@@ -31,7 +29,7 @@ button:add("soundSwitch", {
 		else
 			button:get("soundSwitch").backgroundImage = soundOnPic
 		end
-		settings.soundOn = not settings.soundOn
+		settings:set("soundOn", not settings:get("soundOn"))
 	end
 })
 
@@ -40,6 +38,19 @@ button:add("scorebox", {
 	width = button.width/2,
 	value = "S",
 	color = {255, 0, 0},
+	onclick = function()
+		--screens.game.draw = not screens.game.draw
+		screen.s.scorebox.draw = not screen.s.scorebox.draw
+		--scoreboard:show()
+	end
+})
+
+button:add("spincoin", {
+	X = x-7*button.width/2,
+	width = button.width/2,
+	value = "",
+	color = {255, 0, 0},
+	backgroundImage = spincoinPic,
 	onclick = function()
 		--screens.game.draw = not screens.game.draw
 		screens.scorebox.draw = not screens.scorebox.draw

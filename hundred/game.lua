@@ -32,7 +32,7 @@ function love.load()
 				time = os.clock()
 			end
 		end
-	}, screens.game)
+	}, screen.s.game)
 
 	posXincr = button.width * 1.6
 	initY = mainCircle.Y - mainCircle.radius
@@ -53,7 +53,7 @@ function love.load()
 					usedNumbers = usedNumbers + 1
 				end
 			end
-		}, screens.game)
+		}, screen.s.game)
 	end
 
 	for i=1,9 do
@@ -69,7 +69,7 @@ function love.load()
 			onclick = function()
 				resultString = resultString .. button:get("operations" .. i).value
 			end
-		}, screens.game)
+		}, screen.s.game)
 	end
 
 	button:add("operations" .. 10, {
@@ -92,7 +92,7 @@ function love.load()
 	            resultString = string.sub(resultString, 1, byteoffset - 1)
 	        end
 		end
-	}, screens.game)
+	}, screen.s.game)
 
 	button:add("equal", {
 		value = "=",
@@ -102,11 +102,11 @@ function love.load()
 		onclick = function()
 			getAnswer(resultString)
 		end
-	}, screens.game)
+	}, screen.s.game)
 
 	answerField = {
 		X = mainCircle.X - mainCircle.radius,
-		Y = button:get("run").Y + button:get("run").height + getPercent(x, 10.375),
+		Y = button:get("run").Y + button:get("run").height + getPercent(x, 8.375),
 		width = x - 2*(mainCircle.X - mainCircle.radius),
 		height = button.height
 	}
@@ -120,18 +120,18 @@ function love.load()
 		width = button.width/2,
 		value = "",
 		color = {255, 0, 0},
-		backgroundImage = skinTable[settings.skin].nextSkin,
+		backgroundImage = skinTable[settings:get("skin")].nextSkin,
 		onclick = function()
 			if skinTable[settings.skin].sound:isPlaying() then
-				skinTable[settings.skin].sound:stop()
+				skinTable[settings:get("skin")].sound:stop()
 			end
-			settings.skin = settings.skin + 1
-			if settings.skin > table.getn(skinTable) then
-				settings.skin = 1
+			settings:set("skin", settings:get("skin") + 1)
+			if settings:get("skin") > table.getn(skinTable) then
+				settings:set("skin", 1)
 			end
 			button:get("skin").backgroundImage = skinTable[settings.skin].nextSkin
 		end
-	}, screens.game)
+	}, screen.s.game)
 end
 
 function setDefaultValues()
@@ -475,7 +475,7 @@ function rotate()
 	end
 end
 
-function screens.game.show()
+function screen.s.game.show()
 
 	drawable.triangle(
 		mainCircle.X - mainCircle.radius/8, 
@@ -541,7 +541,7 @@ function screens.game.show()
 	love.graphics.rectangle(
 		"fill",
 		mainCircle.X - mainCircle.radius,
-		button:get("run").Y + button:get("run").height + getPercent(x, 4.125),
+		button:get("run").Y + button:get("run").height + getPercent(x, 2.125),
 		x - 2 * (mainCircle.X - mainCircle.radius), 
 		getPercent(x, 5.46875)
 	)
@@ -573,7 +573,7 @@ function screens.game.show()
 	love.graphics.print(
 		resultString,
 		mainCircle.X - mainCircle.radius,
-		button:get("run").Y + button:get("run").height + getPercent(x, 4.125) + getPercent(x, 5.46875)/2 - expressionFont:getHeight()/4
+		button:get("run").Y + button:get("run").height + getPercent(x, 2.125) + getPercent(x, 5.46875)/2 - expressionFont:getHeight()/4
 	)
 
 	for i=1,2,1 do

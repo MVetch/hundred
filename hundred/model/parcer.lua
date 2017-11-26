@@ -30,6 +30,8 @@ function getAnswer(expression)
 			answer = winAnswer
 			timer:stop()
 			scoreboard:write(timer.time)
+			love.filesystem.write("records.txt", json.encode(scoreboard.results))
+			settings:set("coins", settings:get("coins") + 1)
 		else
 			love.graphics.setColor(255,0,0)
 			answer = almostAnswer

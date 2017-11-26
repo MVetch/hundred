@@ -1,0 +1,10 @@
+screen:get("coincount").show = function ()
+	love.graphics.setColor(0,0,0)
+	--love.graphics.rectangle("fill", 0, 0, screen.s.coincount.w, screen.s.coincount.h)
+	--love.graphics.setColor(255,255,255)
+	love.graphics.print(settings.coins, 0, 0)
+	--love.graphics.rectangle("line", 25, 0, 100, 100)
+	love.graphics.setColor(255,255,255)
+	animation:draw("spincoin", 50, 0, 50, 50)
+end
+animation:new("spincoin", {img = spincoinAnimate, w = 100, h = 100, duration = 1})

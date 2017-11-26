@@ -6,6 +6,8 @@ require 'json.json'
 require "model/functions"
 require "model/variables"
 require "model/screens"
+require "model/settings"
+require "model/animation"
 require "model/button"
 require "model/drawable"
 require "model/parcer"
@@ -15,18 +17,16 @@ require "online/serverResponse"
 require "initScreen"
 require "game"
 require "screens/background"
-require "online/waitScreen"
+require "screens/coincount"
+require "screens/scorebox"
+require "screens/wait"
+require "screens/noNetWork"
 require "model/click"
-require "online/noNetWork"
 
 function love.draw()
 	--scoreboard:toString()
-	--if menu.draw then menu.show() end
-	--if game.draw then game.show() end
-	--if wait.draw then wait.show() end
-	--if noNetWork.draw then noNetWork.show() end
-	for name, screen in pairs(screens) do
-		if screen.draw then screen.show() end
+	for name, params in pairs(screen.s) do
+		if screen:get(name).draw then screen:show(name) end
 	end
 end
 

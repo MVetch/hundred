@@ -19,7 +19,7 @@ function button:release(name)
 	self.b[name].onclick()
 end
 
-function button:add(name, newbutton, screen)
+function button:add(name, newbutton, toscreen)
 	self.b[name] = {}
 	self.b[name].X = newbutton.X or 0
 	self.b[name].Y = newbutton.Y or 0
@@ -40,8 +40,8 @@ function button:add(name, newbutton, screen)
 	self.b[name].incrY = 0
 	self.b[name].onclick = newbutton.onclick or function() end
 	self.b[name].onhover = newbutton.onhover or function() end
-	screen = screen or screens.background
-	table.insert(screen.buttons, name)
+	toscreen = toscreen or screen.s.background
+	table.insert(toscreen.buttons, name)
 end
 
 function button:delete(name)

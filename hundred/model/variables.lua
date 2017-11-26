@@ -19,8 +19,8 @@ soundSwaston = love.audio.newSource("sound/swaston.wav")
 	---------------pics---------------
 soundOnPic = love.graphics.newImage("img/soundOn.png")
 soundOffPic = love.graphics.newImage("img/soundOff.png")
-
-skinAlienBack = love.graphics.newImage("img/alienBack.png")
+spincoinPic = love.graphics.newImage("img/spincoin.png")
+spincoinAnimate = love.graphics.newImage("img/spincoinAnimate.png")
 
 skinCircle = love.graphics.newImage("img/circle.png") -- 1
 skinSwaston = love.graphics.newImage("img/swaston.png") -- 2
@@ -66,21 +66,6 @@ for i=1,table.getn(skinTable),1 do
 	skinTable[i].sound:setLooping(true)
 end
 
-settingsEncoded = love.filesystem.read("settings.txt")
-if settingsEncoded then
-	settings = json.decode(settingsEncoded)
-	if settings.soundOn == nil then
-		settings.soundOn = true
-	end
-	if not settings.skin then
-		settings.skin = 1
-	end
-else
-	settings = {
-		soundOn = true,
-		skin = 1
-	}
-end
 ---------------/essential-----------------
 
 ---------------circle-----------------
