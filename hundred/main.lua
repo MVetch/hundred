@@ -25,7 +25,7 @@ require "model/click"
 
 function love.draw()
 	--scoreboard:toString()
-	for name, params in pairs(screen.s) do
+	for name, params in screen:orderBy("z") do
 		if screen:get(name).draw then screen:show(name) end
 	end
 end
