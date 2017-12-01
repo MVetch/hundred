@@ -1,6 +1,6 @@
 scoreboard = {
 	results = {},
-	values = 10
+	values = 5
 }
 
 function scoreboard:load()
@@ -22,8 +22,8 @@ end
 
 function scoreboard:toString()
 	res = ""
-	for i=1,table.getn(self.results),1 do
-		res = res .. self.results[i] .. "\n"
+	for i=1,math.min(table.getn(self.results), self.values),1 do
+		res = res .. i .. ". " .. self.results[i] .. "\n"
 	end
-	topLeft(res)
+	return res
 end

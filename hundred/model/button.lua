@@ -1,47 +1,47 @@
 button = {
 	b={},
-	width = getPercent(x, 7.8125),
-	height = getPercent(x, 3.90625),
-	color = {123,237,203},
-	font = love.graphics.newFont("fonts/joystix monospace.ttf", fontSize),
-	font1 = love.graphics.newFont("fonts/joystix monospace.ttf", fontSize + 2),
-	fontColor = {255,0,0}
+	default = {
+		X = 0,
+		Y = 0,
+		value = "Push!",
+		rx = 10,
+		ry = 10,
+		segments = 40,
+		shadowX = 3,
+		shadowY = 3,
+		incrX = 0,
+		incrY = 0,
+		onclick = function() end,
+		onhover = function() end,
+		width = getPercent(x, 7.8125),
+		height = getPercent(x, 3.90625),
+		color = {123,237,203},
+		font = love.graphics.newFont("fonts/joystix monospace.ttf", fontSize),
+		font1 = love.graphics.newFont("fonts/joystix monospace.ttf", fontSize + 2),
+		fontColor = BackgroundColor,
+		screen = "background"
+	}
 }
 
 function button:click(name)
-	self.b[name].incrX = self.b[name].incrX + self.b[name].shadowX - 1
-	self.b[name].incrY = self.b[name].incrY + self.b[name].shadowY - 1
+	button:get(name).incrX = button:get(name).incrX + button:get(name).shadowX - 1
+	button:get(name).incrY = button:get(name).incrY + button:get(name).shadowY - 1
 end
 
 function button:release(name)
-	self.b[name].incrX = self.b[name].incrX - self.b[name].shadowX + 1
-	self.b[name].incrY = self.b[name].incrY - self.b[name].shadowY + 1
-	self.b[name].onclick()
+	button:get(name).incrX = button:get(name).incrX - button:get(name).shadowX + 1
+	button:get(name).incrY = button:get(name).incrY - button:get(name).shadowY + 1
+	button:get(name).onclick()
 end
 
-function button:add(name, newbutton, toscreen)
+function button:add(name, params, toscreen)
 	self.b[name] = {}
-	self.b[name].X = newbutton.X or 0
-	self.b[name].Y = newbutton.Y or 0
-	self.b[name].width = newbutton.width or self.width
-	self.b[name].height = newbutton.height or self.height
-	self.b[name].value = newbutton.value or "Push!"
-	self.b[name].backgroundImage = newbutton.backgroundImage
-	self.b[name].color = newbutton.color or self.color
-	self.b[name].fontSize = newbutton.fontSize or fontSize
-	self.b[name].font = newbutton.font or buttonFont
-	self.b[name].fontColor = newbutton.fontColor or BackgroundColor
-	self.b[name].rx = newbutton.rx or 10
-	self.b[name].ry = newbutton.ry or 10
-	self.b[name].segments = newbutton.segments or 40
-	self.b[name].shadowX = newbutton.shadowX or 3
-	self.b[name].shadowY = newbutton.shadowY or 3
-	self.b[name].incrX = 0
-	self.b[name].incrY = 0
-	self.b[name].onclick = newbutton.onclick or function() end
-	self.b[name].onhover = newbutton.onhover or function() end
-	toscreen = toscreen or screen.s.background
-	table.insert(toscreen.buttons, name)
+	if not params then params = {} end
+	for k,v in pairs(self.default) do
+		button:get(name)[k] = params[k] or v
+	end
+	self:get(name).backgroundImage = params.backgroundImage
+	table.insert(screen:get(self:get(name).screen).buttons, name)
 end
 
 function button:delete(name)
@@ -56,70 +56,70 @@ function button:draw(name)
 	love.graphics.setColor(0,0,0)
 	love.graphics.rectangle(
 		"fill", 
-		self.b[name].X+self.b[name].shadowX, 
-		self.b[name].Y+self.b[name].shadowY, 
-		self.b[name].width, 
-		self.b[name].height, 
-		self.b[name].rx, 
-		self.b[name].ry, 
-		self.b[name].segments
+		button:get(name).X+button:get(name).shadowX, 
+		button:get(name).Y+button:get(name).shadowY, 
+		button:get(name).width, 
+		button:get(name).height, 
+		button:get(name).rx, 
+		button:get(name).ry, 
+		button:get(name).segments
 	)
-	love.graphics.setColor(self.b[name].color)
+	love.graphics.setColor(button:get(name).color)
 	love.graphics.rectangle(
 		"fill", 
-		self.b[name].X + self.b[name].incrX, 
-		self.b[name].Y + self.b[name].incrY, 
-		self.b[name].width, 
-		self.b[name].height, 
-		self.b[name].rx, 
-		self.b[name].ry, 
-		self.b[name].segments
+		button:get(name).X + button:get(name).incrX, 
+		button:get(name).Y + button:get(name).incrY, 
+		button:get(name).width, 
+		button:get(name).height, 
+		button:get(name).rx, 
+		button:get(name).ry, 
+		button:get(name).segments
 	)
 
 	love.graphics.setColor(255,255,255)
-	if self.b[name].backgroundImage then
+	if button:get(name).backgroundImage then
 		love.graphics.draw(
-			self.b[name].backgroundImage, 
-			self.b[name].X + self.b[name].incrX + (2 * self.b[name].width - math.sqrt(2) * self.b[name].width)/4, 
-			self.b[name].Y + self.b[name].incrY + (2 * self.b[name].height - math.sqrt(2) * self.b[name].height)/4, 
+			button:get(name).backgroundImage, 
+			button:get(name).X + button:get(name).incrX + (2 * button:get(name).width - math.sqrt(2) * button:get(name).width)/4, 
+			button:get(name).Y + button:get(name).incrY + (2 * button:get(name).height - math.sqrt(2) * button:get(name).height)/4, 
 			0, 
-			self.b[name].width/(math.sqrt(2)*self.b[name].backgroundImage:getWidth()), 
-			self.b[name].height/(math.sqrt(2)*self.b[name].backgroundImage:getHeight())
+			button:get(name).width/(math.sqrt(2)*button:get(name).backgroundImage:getWidth()), 
+			button:get(name).height/(math.sqrt(2)*button:get(name).backgroundImage:getHeight())
 		)
 	end
 
 	love.graphics.setColor(0,0,0)
-	love.graphics.setFont(self.b[name].font)
+	love.graphics.setFont(button:get(name).font)
 	love.graphics.print(--shadow
-		self.b[name].value, 
-		self.b[name].X + (self.b[name].width - self.b[name].font:getWidth(self.b[name].value))*0.5 + 1 + self.b[name].incrX, 
-		self.b[name].Y + (self.b[name].height - self.b[name].font:getHeight())/2 + 1 + self.b[name].incrY
+		button:get(name).value, 
+		button:get(name).X + (button:get(name).width - button:get(name).font:getWidth(button:get(name).value))*0.5 + 1 + button:get(name).incrX, 
+		button:get(name).Y + (button:get(name).height - button:get(name).font:getHeight())/2 + 1 + button:get(name).incrY
 	)
-	--love.graphics.print(self.b[name].value, self.b[name].X + (self.b[name].width - self.b[name].font:getWidth(self.b[name].value))*0.5 - 1, self.b[name].Y + (self.b[name].height - self.b[name].font:getHeight())/2 - 1)
+	--love.graphics.print(button:get(name).value, button:get(name).X + (button:get(name).width - button:get(name).font:getWidth(button:get(name).value))*0.5 - 1, button:get(name).Y + (button:get(name).height - button:get(name).font:getHeight())/2 - 1)
 	
 	if(self:hovered(name)) then
 		love.graphics.setColor(0,0,0)
-		self.b[name].onhover()
+		button:get(name).onhover()
 	else
-		love.graphics.setColor(self.b[name].fontColor)
+		love.graphics.setColor(button:get(name).fontColor)
 	end
 	love.graphics.print(
-		self.b[name].value, 
-		self.b[name].X + (self.b[name].width - self.b[name].font:getWidth(self.b[name].value))*0.5 + self.b[name].incrX, 
-		self.b[name].Y + (self.b[name].height - self.b[name].font:getHeight())/2 + self.b[name].incrY
+		button:get(name).value, 
+		button:get(name).X + (button:get(name).width - button:get(name).font:getWidth(button:get(name).value))*0.5 + button:get(name).incrX, 
+		button:get(name).Y + (button:get(name).height - button:get(name).font:getHeight())/2 + button:get(name).incrY
 	)
 end
 
 function button:exists(name)
-	return self.b[name] ~= nil
+	return button:get(name) ~= nil
 end
 
 function button:hovered(name)
 	cursX, cursY = love.mouse.getPosition()
-	if cursX > self.b[name].X
-		and cursX < self.b[name].X + self.b[name].width
-		and cursY > self.b[name].Y
-		and cursY < self.b[name].Y + self.b[name].height 
+	if cursX > button:get(name).X + screen:get(button:get(name).screen).X
+		and cursX < button:get(name).X + screen:get(button:get(name).screen).X + button:get(name).width
+		and cursY > button:get(name).Y + screen:get(button:get(name).screen).Y
+		and cursY < button:get(name).Y + screen:get(button:get(name).screen).Y + button:get(name).height 
 		then
 			return true
 	end

@@ -21,6 +21,7 @@ require "screens/coincount"
 require "screens/scorebox"
 require "screens/wait"
 require "screens/noNetWork"
+require "screens/settings"
 require "model/click"
 
 function love.draw()

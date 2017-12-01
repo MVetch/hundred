@@ -13,7 +13,7 @@ blockedColor = {153,153,153}
 	---------------sounds---------------
 soundCircle = love.audio.newSource("sound/wheel.wav")
 soundSpinner = love.audio.newSource("sound/spinner.wav")
-soundSwaston = love.audio.newSource("sound/swaston.wav")
+soundSwaston = love.audio.newSource("sound/swaston.mp3")
 	---------------/sounds---------------
 
 	---------------pics---------------
@@ -21,6 +21,7 @@ soundOnPic = love.graphics.newImage("img/soundOn.png")
 soundOffPic = love.graphics.newImage("img/soundOff.png")
 spincoinPic = love.graphics.newImage("img/spincoin.png")
 spincoinAnimate = love.graphics.newImage("img/spincoinAnimate.png")
+settingsPic = love.graphics.newImage("img/settings.png")
 
 skinCircle = love.graphics.newImage("img/circle.png") -- 1
 skinSwaston = love.graphics.newImage("img/swaston.png") -- 2
@@ -93,6 +94,7 @@ buttonFont = love.graphics.newFont("fonts/joystix monospace.ttf", fontSize)
 smallFont = love.graphics.newFont("fonts/joystix monospace.ttf", fontSize/2)
 answerFont = love.graphics.newFont("fonts/runFont.ttf", getPercent(x, 1.953125))
 expressionFont = love.graphics.newFont("fonts/runFont.ttf", getPercent(x, 2.34375))
+titleFont = love.graphics.newFont("fonts/joystix monospace.ttf", fontSize*0.75)
 ---------------/fonts-----------------
 
 ---------------game-----------------
@@ -102,7 +104,7 @@ usedNumbers = 0
 resultString = ""
 answer = ""
 goal = 100
-winAnswer = goal .. "! You won! Click here to try again."
+winAnswer = goal .. "! You won!"
 almostAnswer = goal .. ", but not all numbers used."
 ---------------/game-----------------
 
@@ -152,7 +154,7 @@ operations = {
 			if a == 0 then
 				return 1
 			elseif a < 0 then
-				return "Error in factorial function: argument should be more than -1"
+				return "Error in factorial function: argument shouldn't be less than 0"
 			else
 				ret = 1
 				for i=1, a, 1 do
@@ -195,11 +197,7 @@ operations = {
 			if b == nil then
 				return false
 			end
-			tb=1
-			for i=1, a, 1 do
-				tb = b*tb
-			end
-			return tb
+			return b^a
 		end
 	},
 	{

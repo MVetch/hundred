@@ -1,3 +1,6 @@
+screen:new("game",{
+	draw = true
+})
 function love.load()
 	button:add("run", {
 		width = mainCircle.radius * 2,
@@ -8,6 +11,7 @@ function love.load()
 		X = mainCircle.X - mainCircle.radius,
 		Y = mainCircle.Y + mainCircle.radius + getPercent(x, 3.90625),
 		value = "spin",
+		screen = "game",
 		onclick = function()
 			if not runButtonBlocked then
 				rotateFlag = not rotateFlag
@@ -32,12 +36,12 @@ function love.load()
 				time = os.clock()
 			end
 		end
-	}, screen.s.game)
+	})
 
-	posXincr = button.width * 1.6
+	posXincr = button.default.width * 1.6
 	initY = mainCircle.Y - mainCircle.radius
-	Yincr = button.height * 1.4
-	Xincr = 2 * button.width + 1.2 * posXincr + mainCircle.X - mainCircle.radius
+	Yincr = button.default.height * 1.4
+	Xincr = 2 * button.default.width + 1.2 * posXincr + mainCircle.X - mainCircle.radius
 
 	for i=1,6 do
 		button:add("results" .. i, {
@@ -45,6 +49,7 @@ function love.load()
 			X = x-Xincr,
 			Y = initY + Yincr * (i - 1),
 			clicked = false,
+			screen = "game",
 			onclick = function()
 				if not button:get("results" .. i).clicked and button:get("results" .. i).value ~= "" then
 					resultString = resultString .. button:get("results" .. i).value
@@ -53,35 +58,37 @@ function love.load()
 					usedNumbers = usedNumbers + 1
 				end
 			end
-		}, screen.s.game)
+		})
 	end
 
 	for i=1,9 do
 		if i < 6 then
 			incr = posXincr
 		else
-			incr = 1.2*posXincr + button.width
+			incr = 1.2*posXincr + button.default.width
 		end
 		button:add("operations" .. i, {
-			X = button.b["results" .. ((i-1) % 5 + 1)].X + incr,
-			Y = button.b["results" .. ((i-1) % 5 + 1)].Y,
+			X = button:get("results" .. ((i-1) % 5 + 1)).X + incr,
+			Y = button:get("results" .. ((i-1) % 5 + 1)).Y,
 			value = operations[i].value,
+			screen = "game",
 			onclick = function()
 				resultString = resultString .. button:get("operations" .. i).value
 			end
-		}, screen.s.game)
+		})
 	end
 
 	button:add("operations" .. 10, {
 		value = "C",
-		X = button.b["results" .. 5].X + 1.2*posXincr + button.width,
-		Y = button.b["results" .. 5].Y,
+		X = button:get("results" .. 5).X + 1.2*posXincr + button.default.width,
+		Y = button:get("results" .. 5).Y,
+		screen = "game",
 		onclick = function()
 			if isNumber(string.sub(resultString,-1)) then
 				for j=1,6,1 do
-					if button.b["results" .. j].value == "" then
-						button.b["results" .. j].value = string.sub(resultString,-1)
-						button.b["results" .. j].clicked = false
+					if button:get("results" .. j).value == "" then
+						button:get("results" .. j).value = string.sub(resultString,-1)
+						button:get("results" .. j).clicked = false
 						usedNumbers = usedNumbers - 1
 						break
 					end
@@ -92,23 +99,26 @@ function love.load()
 	            resultString = string.sub(resultString, 1, byteoffset - 1)
 	        end
 		end
-	}, screen.s.game)
+	})
 
 	button:add("equal", {
 		value = "=",
-		X = button.b["results" .. 6].X + posXincr,
-		Y = button.b["results" .. 6].Y,
-		width = button.width*2 + 0.2*posXincr,
+		X = button:get("results" .. 6).X + posXincr,
+		Y = button:get("results" .. 6).Y,
+		width = button.default.width*2 + 0.2*posXincr,
+		screen = "game",
 		onclick = function()
-			getAnswer(resultString)
+			if answer ~= winAnswer then
+				getAnswer(resultString)
+			end
 		end
-	}, screen.s.game)
+	})
 
 	answerField = {
 		X = mainCircle.X - mainCircle.radius,
 		Y = button:get("run").Y + button:get("run").height + getPercent(x, 8.375),
 		width = x - 2*(mainCircle.X - mainCircle.radius),
-		height = button.height
+		height = button.default.height
 	}
 	-- answer2 = ""
 	-- for k,b in pairs(game.buttons) do
@@ -116,11 +126,12 @@ function love.load()
 	-- end
 
 	button:add("skin", {
-		X = x-4*button.width/2,
-		width = button.width/2,
+		X = x-4*button.default.width/2,
+		width = button.default.width/2,
 		value = "",
 		color = {255, 0, 0},
 		backgroundImage = skinTable[settings:get("skin")].nextSkin,
+		screen = "game",
 		onclick = function()
 			if skinTable[settings.skin].sound:isPlaying() then
 				skinTable[settings:get("skin")].sound:stop()
@@ -131,7 +142,7 @@ function love.load()
 			end
 			button:get("skin").backgroundImage = skinTable[settings.skin].nextSkin
 		end
-	}, screen.s.game)
+	})
 end
 
 function setDefaultValues()
@@ -447,7 +458,7 @@ function drawDigits(X, Y, color)
 	textRad = radius - getPercent(x, 4.6875)
 
 	for i=0,9,1 do
-		love.graphics.setFont(button.font1)
+		love.graphics.setFont(button.default.font1)
 		love.graphics.setColor(0,0,0)
 		love.graphics.print(
 			i,
@@ -455,7 +466,7 @@ function drawDigits(X, Y, color)
 			Y+(textRad*math.cos(deg+degIncr/2-0.75/(2*math.pi))*math.cos(angle) + textRad*math.sin(deg+degIncr/2-0.75/(2*math.pi))*math.sin(angle)),
 			textDeg + angle
 		)
-		love.graphics.setFont(button.font)
+		love.graphics.setFont(button.default.font)
 		love.graphics.setColor(255,255,255)
 		love.graphics.print(
 			i,
@@ -510,7 +521,7 @@ function screen.s.game.show()
 	if runButtonBlocked then
 		button:get("run").color = blockedColor
 	else 
-		button:get("run").color = button.color
+		button:get("run").color = button.default.color
 	end
 
 	button:draw("run")
@@ -526,7 +537,7 @@ function screen.s.game.show()
 	else
 		runButtonBlocked = false
 		button:get("run").value = "spin"
-		love.audio.stop()
+		love.audio.pause()
 	end
 	--topLeft(os.clock()-time)
 	--topLeft(mainCircle.angle)

@@ -35,10 +35,10 @@ function love.mousereleased(clickX, clickY, buttonClick, istouch)
 end
 
 function click.inside(name)
-	if click.X > button:get(name).X
-		and click.X < button:get(name).X + button:get(name).width
-		and click.Y > button:get(name).Y
-		and click.Y < button:get(name).Y + button:get(name).height 
+	if click.X > button:get(name).X + screen:get(button:get(name).screen).X
+		and click.X < button:get(name).X + screen:get(button:get(name).screen).X + button:get(name).width
+		and click.Y > button:get(name).Y + screen:get(button:get(name).screen).Y
+		and click.Y < button:get(name).Y + screen:get(button:get(name).screen).Y + button:get(name).height 
 		then
 			return true
 	end

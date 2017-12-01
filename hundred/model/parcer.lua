@@ -9,27 +9,22 @@ opStack = {
 
 function getAnswer(expression)
 	expression = replaceUnaryOperator(expression)
-	--answer = expression
-	-- expression = "45"
-	-- answer = utf8sub(expression, 20, 20)
 	answer = ""
 	temp = postfix(expression)
 	if temp then -- if error (error is not nil)
 		answer = temp
 	else 
 		if table.getn(outputQueue.data) > 0 then
-			--answer = postfixToString(outputQueue)
 			answer = evaluate(outputQueue)
-			--resultString = resultString.."="..evaluate(outputQueue)
 		end
 	end
 
 	if answer == goal then
-		if usedNumbers == 6 then 
+		if usedNumbers == 6 then
 			love.graphics.setColor(0,255,0)--answer itself
 			answer = winAnswer
 			timer:stop()
-			scoreboard:write(timer.time)
+			scoreboard:write(tonumber(timer.time))
 			love.filesystem.write("records.txt", json.encode(scoreboard.results))
 			settings:set("coins", settings:get("coins") + 1)
 		else

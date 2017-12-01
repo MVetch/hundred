@@ -5,7 +5,8 @@ screen = {
 		w = x,
 		h = y,
 		draw = false,
-		z = 1
+		z = 1,
+		show = function() end
 	},
 	s = {}
 }
@@ -23,7 +24,7 @@ end
 function screen:show(name)
 	if name == nil then error("oops") end
 	love.graphics.translate(screen:get(name).X, screen:get(name).Y)
-	screen:get(name).show()
+	screen:get(name):show()
 	love.graphics.origin()
 end
 
@@ -71,39 +72,3 @@ function screen:orderBy(key, order)
 	end
 	return iter
 end
-
-function comp(a, b)
-	return a["z"] < b["z"]
-end
-
-function in_array(k,a)
-	for k1,v in pairs(a) do
-		if k == v then return true end
-	end
-	return false
-end
-
-screen:new("coincount",{
-	draw = true,
-	X = x-150,
-	Y = 70,
-	w = 150,
-	h = 100
-})
-screen:new("game",{
-	draw = true
-})
-screen:new("scorebox", {
-	zindex = 2,
-	X = x/3,
-	Y = y/4,
-	w = x/3,
-	h = y/2,
-	z=2
-})
-screen:new("menu")
-screen:new("noNetWork")
-screen:new("wait")
-screen:new("background",{
-	draw = true,
-})

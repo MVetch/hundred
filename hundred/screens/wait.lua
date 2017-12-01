@@ -1,3 +1,4 @@
+screen:new("wait")
 if(screen.s.wait ~= nil) then function screen.s.wait.show()
 	drawable.button(returnButton)
 	drawMainCircle(getPercent(x, 50), getPercent(y, 30), mainCircle.color)
