@@ -25,6 +25,9 @@ function screen:show(name)
 	if name == nil then error("oops") end
 	love.graphics.translate(screen:get(name).X, screen:get(name).Y)
 	screen:get(name):show()
+	for i=1, table.getn(screen:get(name).buttons), 1 do
+		button:draw(screen:get(name).buttons[i])
+	end
 	love.graphics.origin()
 end
 

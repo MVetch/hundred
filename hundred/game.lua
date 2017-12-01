@@ -124,25 +124,6 @@ function love.load()
 	-- for k,b in pairs(game.buttons) do
 	-- 	answer2 = answer2 .. "\n" .. button:get(b).X
 	-- end
-
-	button:add("skin", {
-		X = x-4*button.default.width/2,
-		width = button.default.width/2,
-		value = "",
-		color = {255, 0, 0},
-		backgroundImage = skinTable[settings:get("skin")].nextSkin,
-		screen = "game",
-		onclick = function()
-			if skinTable[settings.skin].sound:isPlaying() then
-				skinTable[settings:get("skin")].sound:stop()
-			end
-			settings:set("skin", settings:get("skin") + 1)
-			if settings:get("skin") > table.getn(skinTable) then
-				settings:set("skin", 1)
-			end
-			button:get("skin").backgroundImage = skinTable[settings.skin].nextSkin
-		end
-	})
 end
 
 function setDefaultValues()
@@ -524,8 +505,6 @@ function screen.s.game.show()
 		button:get("run").color = button.default.color
 	end
 
-	button:draw("run")
-
 	runButtonBlocked = tern(os.clock()-time<=1.0, true, false)
 
 	if rotateFlag then
@@ -542,11 +521,6 @@ function screen.s.game.show()
 	--topLeft(os.clock()-time)
 	--topLeft(mainCircle.angle)
 	-- topLeft(answer2)
-	
-	for i=1, 6, 1 do --number buttons
-		button:draw("results" .. i)
-	end
-
 
 	love.graphics.setColor(20, 132, 5)--calc field
 	love.graphics.rectangle(
@@ -586,13 +560,4 @@ function screen.s.game.show()
 		mainCircle.X - mainCircle.radius,
 		button:get("run").Y + button:get("run").height + getPercent(x, 2.125) + getPercent(x, 5.46875)/2 - expressionFont:getHeight()/4
 	)
-
-	for i=1,2,1 do
-		for j=1,5,1 do
-			button:draw("operations" .. 5*(i-1)+j)
-		end
-	end
-
-	button:draw("equal")
-	button:draw("skin")
 end

@@ -24,21 +24,21 @@ button = {
 }
 
 function button:click(name)
-	button:get(name).incrX = button:get(name).incrX + button:get(name).shadowX - 1
+	--button:get(name).incrX = button:get(name).incrX + button:get(name).shadowX - 1
 	button:get(name).incrY = button:get(name).incrY + button:get(name).shadowY - 1
 end
 
 function button:release(name)
-	button:get(name).incrX = button:get(name).incrX - button:get(name).shadowX + 1
+	--button:get(name).incrX = button:get(name).incrX - button:get(name).shadowX + 1
 	button:get(name).incrY = button:get(name).incrY - button:get(name).shadowY + 1
 	button:get(name).onclick()
 end
 
-function button:add(name, params, toscreen)
+function button:add(name, params)
 	self.b[name] = {}
 	if not params then params = {} end
 	for k,v in pairs(self.default) do
-		button:get(name)[k] = params[k] or v
+		self:get(name)[k] = params[k] or v
 	end
 	self:get(name).backgroundImage = params.backgroundImage
 	table.insert(screen:get(self:get(name).screen).buttons, name)
@@ -54,9 +54,9 @@ function button:draw(name)
 		error("button " .. name .. " doesn't exist.")
 	end
 	love.graphics.setColor(0,0,0)
-	love.graphics.rectangle(
+	love.graphics.rectangle(--shadowButton
 		"fill", 
-		button:get(name).X+button:get(name).shadowX, 
+		button:get(name).X,--+button:get(name).shadowX, 
 		button:get(name).Y+button:get(name).shadowY, 
 		button:get(name).width, 
 		button:get(name).height, 
@@ -90,7 +90,7 @@ function button:draw(name)
 
 	love.graphics.setColor(0,0,0)
 	love.graphics.setFont(button:get(name).font)
-	love.graphics.print(--shadow
+	love.graphics.print(--shadowText
 		button:get(name).value, 
 		button:get(name).X + (button:get(name).width - button:get(name).font:getWidth(button:get(name).value))*0.5 + 1 + button:get(name).incrX, 
 		button:get(name).Y + (button:get(name).height - button:get(name).font:getHeight())/2 + 1 + button:get(name).incrY

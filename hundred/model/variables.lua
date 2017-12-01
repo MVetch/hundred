@@ -23,41 +23,50 @@ spincoinPic = love.graphics.newImage("img/spincoin.png")
 spincoinAnimate = love.graphics.newImage("img/spincoinAnimate.png")
 settingsPic = love.graphics.newImage("img/settings.png")
 
-skinCircle = love.graphics.newImage("img/circle.png") -- 1
-skinSwaston = love.graphics.newImage("img/swaston.png") -- 2
-skinSpinner = love.graphics.newImage("img/spinner.png") -- 3
-skinAlien = love.graphics.newImage("img/alien.png") -- 4
-skinHandWheel = love.graphics.newImage("img/handwheel.png") -- 5
-skinHipno = love.graphics.newImage("img/hypno.png") -- 6
-skinMandelbrot = love.graphics.newImage("img/mandelbrot.png") -- 7
+--skins = {
+	skinCircle = love.graphics.newImage("img/circle.png") -- 1
+	skinSwaston = love.graphics.newImage("img/swaston.png") -- 2
+	skinSpinner = love.graphics.newImage("img/spinner.png") -- 3
+	skinAlien = love.graphics.newImage("img/alien.png") -- 4
+	skinHandWheel = love.graphics.newImage("img/handwheel.png") -- 5
+	skinHipno = love.graphics.newImage("img/hypno.png") -- 6
+	skinMandelbrot = love.graphics.newImage("img/mandelbrot.png") -- 7
+--}
 	---------------/pics---------------
 
 skinTable = {--should show the next skin
 	[1] = {--circle
+		name = "circle",
 		nextSkin = skinSwaston,
 		sound = soundCircle
 	},
 	[2] = {--swaston
+		name = "swaston",
 		nextSkin = skinSpinner,
 		sound = soundSwaston
 	},
 	[3] = {--spinner
+		name = "spinner",
 		nextSkin = skinAlien,
 		sound = soundSpinner
 	},
 	[4] = {--alien
+		name = "alien",
 		nextSkin = skinHandWheel,
 		sound = soundSpinner
 	},
 	[5] = {--handwheel
+		name = "handwheel",
 		nextSkin = skinHipno,
 		sound = soundSpinner
 	},
 	[6] = {--hipno
+		name = "hipno",
 		nextSkin = skinMandelbrot,
 		sound = soundSpinner
 	},
 	[7] = {--mandelbrot
+		name = "mandelbrot",
 		nextSkin = skinCircle,
 		sound = soundSpinner
 	}

@@ -14,6 +14,14 @@ drawable = {
 		end
 	end,
 
+	border = function(x, y, w, h, b)
+		width = width or 0
+		love.graphics.rectangle("fill", x, y, b.left, h)
+		love.graphics.rectangle("fill", x, y, w, b.top)
+		love.graphics.rectangle("fill", w-b.right, y, b.right, h)
+		love.graphics.rectangle("fill", x, h-b.bottom, w, b.bottom)
+	end,
+
 	circle = function(x, y, radius)
 		love.graphics.circle("fill", x, y, radius)
 	end,
