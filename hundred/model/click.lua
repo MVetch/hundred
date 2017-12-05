@@ -4,7 +4,7 @@ function love.mousepressed(clickX, clickY, buttonClick, istouch)
 	click.Y = clickY
 	if buttonClick == 1 then
 		for name, s in pairs(screen.s) do
-			if s.draw then 
+			if s.active then 
 				for k,b in pairs(s.buttons) do
 					if(click.inside(b)) then
 						button:click(b)
@@ -22,7 +22,7 @@ end
 function love.mousereleased(clickX, clickY, buttonClick, istouch)
 	if buttonClick == 1 then
 		for name, s in pairs(screen.s) do
-			if s.draw then 
+			if s.active then 
 				for k,b in pairs(s.buttons) do
 					if(click.inside(b)) then
 						button:release(b)
@@ -35,14 +35,10 @@ function love.mousereleased(clickX, clickY, buttonClick, istouch)
 end
 
 function click.inside(name)
-	if click.X > button:get(name).X + screen:get(button:get(name).screen).X
+	return click.X > button:get(name).X + screen:get(button:get(name).screen).X
 		and click.X < button:get(name).X + screen:get(button:get(name).screen).X + button:get(name).width
 		and click.Y > button:get(name).Y + screen:get(button:get(name).screen).Y
 		and click.Y < button:get(name).Y + screen:get(button:get(name).screen).Y + button:get(name).height 
-		then
-			return true
-	end
-	return false
 end
 function click.insideField(field)
 	if click.X > field.X

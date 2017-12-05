@@ -13,6 +13,7 @@ function skin:add(name, params)
 	for k,v in pairs(self.default) do
 		self:get(name)[k] = params[k] or v
 	end
+	self:get(name).sound:setLooping(true)
 end
 
 function skin:exists(name)
@@ -40,8 +41,8 @@ skin:add("alien", {
 skin:add("handwheel", {
 	img = skinHandWheel
 })
-skin:add("hipno", {
-	img = skinHipno
+skin:add("hypno", {
+	img = skinHypno
 })
 skin:add("mandelbrot", {
 	img = skinMandelbrot

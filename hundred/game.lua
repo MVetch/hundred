@@ -1,5 +1,6 @@
 screen:new("game",{
-	draw = true
+	draw = true,
+	active = true
 })
 function love.load()
 	button:add("run", {
@@ -33,7 +34,7 @@ function love.load()
 						end
 					end
 				end
-				time = os.clock()
+				time = love.timer.getTime()
 			end
 		end
 	})
@@ -148,7 +149,7 @@ function rotateY(x, y, angle)
 	return x*math.sin(angle) + y*math.cos(angle)
 end
 
-skinTable[1].func = function (X, Y, initCol)--circle
+skin:get("circle").draw = function (X, Y, initCol)--circle
 	radius = mainCircle.radius
 	love.graphics.setColor(255,255,255)
 	red = initCol.red
@@ -215,8 +216,7 @@ skinTable[1].func = function (X, Y, initCol)--circle
 	-- 	deg = deg + degIncr
 	-- end
 end
-
-skinTable[2].func = function(X, Y) --swaston
+skin:get("swaston").draw = function(X, Y) --swaston
 	radius = mainCircle.radius
 	angle = mainCircle.angle
 	width = getPercent(x, 1.25)
@@ -298,7 +298,7 @@ skinTable[2].func = function(X, Y) --swaston
 		Y+rotateY((-width+radius),(width+radius), angle)
 	)
 end
-skinTable[3].func = function(X, Y, initCol) --spinner
+skin:get("spinner").draw = function(X, Y, initCol) --spinner
 	radius = mainCircle.radius
 	angle = mainCircle.angle
 	deg = degToRad(17.25)
@@ -372,61 +372,33 @@ skinTable[3].func = function(X, Y, initCol) --spinner
 		)
 	end
 end
-skinTable[4].func = function(X, Y, initCol) --alien
+skin:get("alien").draw = function(X, Y, initCol) --alien
 	radius = mainCircle.radius
 	angle = mainCircle.angle
 	love.graphics.setColor(255,255,255)
 	--love.graphics.draw(skinAlienBack, X, Y, 0, 2*radius/skinAlienBack:getWidth(), 2*radius/skinAlienBack:getHeight(), skinAlienBack:getWidth()/2, skinAlienBack:getHeight()/2)
 	love.graphics.draw(skinAlien, X, Y, angle, 2*radius/skinAlien:getWidth(), 2*radius/skinAlien:getHeight(), skinAlien:getWidth()/2, skinAlien:getHeight()/2)
-	drawable.circle(
-		X,
-		Y,
-		3
-	)
 end
-skinTable[5].func = function(X, Y, initCol) --handwheel
+skin:get("handwheel").draw = function(X, Y, initCol) --handwheel
 	radius = mainCircle.radius
 	angle = mainCircle.angle
 	love.graphics.setColor(255,255,255)
 	--love.graphics.draw(skinAlienBack, X, Y, 0, 2*radius/skinAlienBack:getWidth(), 2*radius/skinAlienBack:getHeight(), skinAlienBack:getWidth()/2, skinAlienBack:getHeight()/2)
 	love.graphics.draw(skinHandWheel, X, Y, angle + 17.25, 2*radius/skinHandWheel:getWidth(), 2*radius/skinHandWheel:getHeight(), skinHandWheel:getWidth()/2, skinHandWheel:getHeight()/2)
-	drawable.circle(
-		X,
-		Y,
-		3
-	)
 end
-skinTable[6].func = function(X, Y, initCol) --hypno
+skin:get("hypno").draw = function(X, Y, initCol) --hypno
 	radius = mainCircle.radius
 	angle = mainCircle.angle
 	love.graphics.setColor(255,255,255)
-	love.graphics.draw(skinHipno, X, Y, angle + 17.25, 2*radius/skinHipno:getWidth(), 2*radius/skinHipno:getHeight(), skinHipno:getWidth()/2, skinHipno:getHeight()/2)
+	love.graphics.draw(skinHypno, X, Y, angle + 17.25, 2*radius/skinHypno:getWidth(), 2*radius/skinHypno:getHeight(), skinHypno:getWidth()/2, skinHypno:getHeight()/2)
 	love.graphics.setColor(0,0,0)
-	--drawable.ring(X, Y, radius - buttonFont:getHeight()*0.3, buttonFont:getHeight())
-	-- radius = radius - buttonFont:getHeight()*0.3
-	-- drawable.circle(X, Y, radius)
-	-- radius = radius - buttonFont:getHeight()*0.8
-	-- love.graphics.setColor(255,255,255)
-	-- drawable.circle(X, Y, radius)
-	-- radius = radius - buttonFont:getHeight()*0.5
-	--love.graphics.draw(skinAlienBack, X, Y, 0, 2*radius/skinAlienBack:getWidth(), 2*radius/skinAlienBack:getHeight(), skinAlienBack:getWidth()/2, skinAlienBack:getHeight()/2)
-	drawable.circle(
-		X,
-		Y,
-		3
-	)
 end
-skinTable[7].func = function(X, Y, initCol) --mandelbrot
+skin:get("mandelbrot").draw = function(X, Y, initCol) --mandelbrot
 	radius = mainCircle.radius
 	angle = mainCircle.angle
 	love.graphics.setColor(255,255,255)
 	--love.graphics.draw(skinAlienBack, X, Y, 0, 2*radius/skinAlienBack:getWidth(), 2*radius/skinAlienBack:getHeight(), skinAlienBack:getWidth()/2, skinAlienBack:getHeight()/2)
 	love.graphics.draw(skinMandelbrot, X, Y, angle, 2*radius/skinMandelbrot:getWidth(), 2*radius/skinMandelbrot:getHeight(), skinMandelbrot:getWidth()/2, skinMandelbrot:getHeight()/2)
-	drawable.circle(
-		X,
-		Y,
-		3
-	)
 end
 
 function drawDigits(X, Y, color)
@@ -489,7 +461,7 @@ function screen.s.game.show()
 	-- 		mainCircle.Y
 	-- 	)
 	-- end
-	skinTable[settings.skin].func(
+	skin:get(settings:get("skin")).draw(
 		mainCircle.X, 
 		mainCircle.Y, 
 		mainCircle.color
@@ -505,18 +477,18 @@ function screen.s.game.show()
 		button:get("run").color = button.default.color
 	end
 
-	runButtonBlocked = tern(os.clock()-time<=1.0, true, false)
+	runButtonBlocked = tern(love.timer.getTime()-time<=1.0, true, false)
 
 	if rotateFlag then
 		rotate()
 		button:get("run").value = "stop"
 		if settings.soundOn then
-			skinTable[settings.skin].sound:play()
+			skin:get(settings:get("skin")).sound:play()
 		end
 	else
 		runButtonBlocked = false
 		button:get("run").value = "spin"
-		love.audio.pause()
+		skin:get(settings:get("skin")).sound:pause()
 	end
 	--topLeft(os.clock()-time)
 	--topLeft(mainCircle.angle)

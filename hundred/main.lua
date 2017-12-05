@@ -1,34 +1,37 @@
-love.window.setMode(1280, 720, {resizable = false, borderless=false})
+love.window.setMode(1280, 720, {
+	resizable = false, 
+	borderless=false,
+	vsync = false
+})
 --love.window.setMode(0, 0, {resizable = false, borderless=false})
 utf8 = require "utf8"
 socket = require "socket"
 require 'json.json'
-require "model/functions"
-require "model/variables"
-require "model/screens"
-require "model/settings"
-require "model/animation"
-require "model/button"
-require "model/drawable"
-require "model/parcer"
-require "model/timer"
-require "model/scoreboard"
-require "model/slider"
-require "model/slide"
-require "model/skin"
-require "online/serverResponse"
+require 'functions'
+require 'variables'
+local dirs = {
+	"model",
+	"screens",
+	"online"
+}
+for i=1,table.getn(dirs),1 do
+	local files = love.filesystem.getDirectoryItems(dirs[i])
+	for k, file in ipairs(files) do
+		require(dirs[i] .. "/" .. file:sub(1,-5))
+	end
+end
 require "initScreen"
 require "game"
-require "screens/background"
-require "screens/coincount"
-require "screens/scorebox"
-require "screens/wait"
-require "screens/noNetWork"
-require "screens/settings"
-require "model/click"
+
+function hovered(X, Y, w, h)
+	return cursor.x > X
+		and cursor.x < X + w
+		and cursor.y > Y
+		and cursor.y < Y + h
+end
 
 function love.draw()
-	--scoreboard:toString()
+	cursor.x, cursor.y = love.mouse.getPosition()
 	for name, params in screen:orderBy("z") do
 		if screen:get(name).draw then screen:show(name) end
 	end
@@ -42,9 +45,7 @@ function love.run()
  
 	if love.timer then love.timer.step() end
  
-	-- Main loop time.
 	while true do
-		-- Process events.
 		if love.event then
 			love.event.pump()
 			for name, a,b,c,d,e,f in love.event.poll() do
@@ -60,7 +61,6 @@ function love.run()
 			end
 		end
  
-		-- Update dt, as we'll be passing it to update
 		if love.timer then
 			love.timer.step()
 			dt = love.timer.getDelta()
@@ -76,7 +76,7 @@ function love.run()
 			love.graphics.present()
 		end
  
-		if love.timer then love.timer.sleep(1/60) end
+		if love.timer then love.timer.sleep(1/65) end
 	end
  
 end

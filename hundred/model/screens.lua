@@ -6,6 +6,7 @@ screen = {
 		h = y,
 		draw = false,
 		z = 1,
+		active = false,
 		show = function() end
 	},
 	s = {}
@@ -24,11 +25,15 @@ end
 function screen:show(name)
 	if name == nil then error("oops") end
 	love.graphics.translate(screen:get(name).X, screen:get(name).Y)
+	cursor.x = cursor.x - screen:get(name).X
+	cursor.y = cursor.y - screen:get(name).Y
 	screen:get(name):show()
 	for i=1, table.getn(screen:get(name).buttons), 1 do
 		button:draw(screen:get(name).buttons[i])
 	end
 	love.graphics.origin()
+	cursor.x = cursor.x + screen:get(name).X
+	cursor.y = cursor.y + screen:get(name).Y
 end
 
 function screen:get(name)

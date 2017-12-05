@@ -5,7 +5,7 @@ if settingsEncoded then
 		settings.soundOn = true
 	end
 	if not settings.skin then
-		settings.skin = 1
+		settings.skin = "circle"
 	end
 	if not settings.coins then
 		settings.coins = 0
@@ -13,7 +13,7 @@ if settingsEncoded then
 else
 	settings = {
 		soundOn = true,
-		skin = 1,
+		skin = "circle",
 		coins = 0
 	}
 end

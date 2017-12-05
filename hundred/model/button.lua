@@ -115,15 +115,10 @@ function button:exists(name)
 end
 
 function button:hovered(name)
-	cursX, cursY = love.mouse.getPosition()
-	if cursX > button:get(name).X + screen:get(button:get(name).screen).X
-		and cursX < button:get(name).X + screen:get(button:get(name).screen).X + button:get(name).width
-		and cursY > button:get(name).Y + screen:get(button:get(name).screen).Y
-		and cursY < button:get(name).Y + screen:get(button:get(name).screen).Y + button:get(name).height 
-		then
-			return true
-	end
-	return false
+	return cursor.x > button:get(name).X
+		and cursor.x < button:get(name).X + button:get(name).width
+		and cursor.y > button:get(name).Y
+		and cursor.y < button:get(name).Y + button:get(name).height 
 end
 
 function button:get(name)

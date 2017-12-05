@@ -16,6 +16,8 @@ button:add("closeSettings", {
 	font = titleFont,
 	onclick = function()
 		screen:get("settings").draw = false
+		screen:get("settings").active = false
+		screen:get("game").active = true
 	end
 })
 
@@ -40,35 +42,39 @@ button:add("soundSwitch", {
 	end
 })
 
-button:add("skin", {
-	X = titleFont:getWidth("Sound") + 10,
-	Y = titleFont:getHeight("a") * 4,
-	width = titleFont:getHeight("a"),
-	height = titleFont:getHeight("a"),
-	value = "",
-	color = {255, 0, 0},
-	backgroundImage = skinTable[settings:get("skin")].nextSkin,
-	screen = "settings",
-	font = titleFont,
-	onclick = function()
-		if skinTable[settings.skin].sound:isPlaying() then
-			skinTable[settings:get("skin")].sound:stop()
-		end
-		settings:set("skin", settings:get("skin") + 1)
-		if settings:get("skin") > table.getn(skinTable) then
-			settings:set("skin", 1)
-		end
-		button:get("skin").backgroundImage = skinTable[settings.skin].nextSkin
-	end
-})
+-- button:add("skin", {
+-- 	X = titleFont:getWidth("Sound") + 10,
+-- 	Y = titleFont:getHeight("a") * 4,
+-- 	width = titleFont:getHeight("a"),
+-- 	height = titleFont:getHeight("a"),
+-- 	value = "",
+-- 	color = {255, 0, 0},
+-- 	backgroundImage = skinTable[settings:get("skin")].nextSkin,
+-- 	screen = "settings",
+-- 	font = titleFont,
+-- 	onclick = function()
+-- 		if skinTable[settings.skin].sound:isPlaying() then
+-- 			skinTable[settings:get("skin")].sound:stop()
+-- 		end
+-- 		settings:set("skin", settings:get("skin") + 1)
+-- 		if settings:get("skin") > table.getn(skinTable) then
+-- 			settings:set("skin", 1)
+-- 		end
+-- 		button:get("skin").backgroundImage = skinTable[settings.skin].nextSkin
+-- 	end
+-- })
 
 slider:add("skin", {
-	slideCount = table.getn(skinTable)
+	slideCount = 5
 })
 
 for k,v in pairs(skin.s) do
 	slide:add(k, {
-		img = v.img
+		img = v.img,
+		onclick = function()
+			skin:get(settings:get("skin")).sound:stop()
+			settings:set("skin", k)
+		end
 	})
 end
 
